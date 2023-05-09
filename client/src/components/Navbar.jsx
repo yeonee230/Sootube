@@ -3,15 +3,23 @@ import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 import { BiSearch } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineVideoCamera } from 'react-icons/ai';
 import Upload from './Upload';
+import { logout } from '../redux/userSlice';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+
+  const handleLogout = async() =>{
+    dispatch(logout(""));
+    alert("😭 Good bye!");
+    navigate("/");
+  }
 
   return (
     <>
@@ -31,6 +39,7 @@ export default function Navbar() {
               </UploadBtn>
               <Avatar src={currentUser.img} />
               {currentUser.name}
+              <Button onClick={handleLogout}>Log Out</Button>
             </User>
           ) : (
             <Link

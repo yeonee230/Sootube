@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -64,6 +65,7 @@ export default function SingIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -91,6 +93,7 @@ export default function SingIn() {
           })
           .then((res) => {
             dispatch(loginSuccess(res.data));
+            navigate('/')
           });
       })
       .catch((error) => {
