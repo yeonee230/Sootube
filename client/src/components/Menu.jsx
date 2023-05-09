@@ -15,10 +15,11 @@ import { CgMediaLive, CgProfile, CgDarkMode } from 'react-icons/cg';
 import { HiOutlineFlag, HiOutlineNewspaper } from 'react-icons/hi';
 import { RiGamepadLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   flex: 1;
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({ theme }) => theme.bgSide};
   height: 100vh;
   color: ${({ theme }) => theme.text};
   font-size: 14px;
@@ -52,10 +53,12 @@ const Item = styled.div`
   align-items: center;
   gap: 20px;
   cursor: pointer;
-  padding: 7.5px 0px;
+  padding: 7.5px 10px;
   font-size: 14px;
+
   &:hover {
     background-color: ${({ theme }) => theme.soft};
+    border-radius: 20px;
   }
 `;
 
@@ -81,6 +84,7 @@ const Button = styled.button`
 `;
 
 export default function Menu({ darkMode, setDarkMode }) {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <Container>
       <Wrapper>
@@ -100,10 +104,10 @@ export default function Menu({ darkMode, setDarkMode }) {
           to='/'
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
-        <Item>
-          <AiFillHome />
-          Home
-        </Item>
+          <Item>
+            <AiFillHome />
+            Home
+          </Item>
         </Link>
         <Link
           to='/trends'
@@ -118,10 +122,10 @@ export default function Menu({ darkMode, setDarkMode }) {
           to='/subscriptions'
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
-        <Item>
-          <MdOutlineSubscriptions />
-          Subscription
-        </Item>
+          <Item>
+            <MdOutlineSubscriptions />
+            Subscription
+          </Item>
         </Link>
         <Hr />
         <Item>
@@ -133,19 +137,23 @@ export default function Menu({ darkMode, setDarkMode }) {
           History
         </Item>
         <Hr />
-        <Login>
-          Sign in like videos, comment and subscribe.
-          <Link
-            to='/signin'
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <Button>
-              <CgProfile />
-              Sign in
-            </Button>
-          </Link>
-        </Login>
-        <Hr />
+        {!currentUser && (
+          <>
+            <Login>
+              Sign in like videos, comment and subscribe.
+              <Link
+                to='/signin'
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <Button>
+                  <CgProfile />
+                  Sign in
+                </Button>
+              </Link>
+            </Login>
+            <Hr />
+          </>
+        )}
         <Item>
           <MdLibraryMusic />
           Music

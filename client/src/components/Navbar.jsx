@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 import { BiSearch } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AiOutlineVideoCamera } from 'react-icons/ai';
 
 const Container = styled.div`
   position: sticky;
@@ -33,6 +35,7 @@ const Search = styled.div`
 `;
 const Input = styled.input`
   border: none;
+  width: 100%;
   background-color: transparent;
   color: ${({ theme }) => theme.text};
 `;
@@ -49,23 +52,50 @@ const Button = styled.button`
   gap: 5px;
   font-size: 15px;
 `;
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+  font-size:18px;
+`
+const Avatar = styled.img`
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background-color: #999;
+`
 export default function Navbar() {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <Container>
       <Wrapper>
         <Search>
           <Input placeholder='Search...' />
-          <BiSearch />
-        </Search>
-        <Link
-          to='/signin'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
           <Button>
-            <CgProfile />
-            Sign in
+            <BiSearch />
           </Button>
-        </Link>
+        </Search>
+        {currentUser ? (
+          <User>
+            <AiOutlineVideoCamera />
+            <Avatar />
+            {currentUser.name}
+          </User>
+        ) : (
+          <Link
+            to='/signin'
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <Button>
+              <CgProfile />
+              Sign in
+            </Button>
+          </Link>
+        )}
       </Wrapper>
     </Container>
   );
