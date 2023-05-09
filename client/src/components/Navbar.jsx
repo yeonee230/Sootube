@@ -1,10 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 import { BiSearch } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AiOutlineVideoCamera } from 'react-icons/ai';
+import Upload from './Upload';
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+
+  return (
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input placeholder='Search...' />
+            <Button>
+              <BiSearch />
+            </Button>
+          </Search>
+          {currentUser ? (
+            <User>
+              <UploadBtn onClick={() => setOpen(true)}>
+                <AiOutlineVideoCamera />
+              </UploadBtn>
+              <Avatar src={currentUser.img} />
+              {currentUser.name}
+            </User>
+          ) : (
+            <Link
+              to='/signin'
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <Button>
+                <CgProfile />
+                Sign in
+              </Button>
+            </Link>
+          )}
+        </Wrapper>
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
+  );
+}
 
 const Container = styled.div`
   position: sticky;
@@ -59,44 +100,15 @@ const User = styled.div`
   gap: 10px;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
-  font-size:18px;
-`
+  font-size: 18px;
+`;
 const Avatar = styled.img`
-  width:32px;
-  height:32px;
-  border-radius:50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   background-color: #999;
-`
-export default function Navbar() {
-  const { currentUser } = useSelector((state) => state.user);
+`;
 
-  return (
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder='Search...' />
-          <Button>
-            <BiSearch />
-          </Button>
-        </Search>
-        {currentUser ? (
-          <User>
-            <AiOutlineVideoCamera />
-            <Avatar src={currentUser.img} />
-            {currentUser.name}
-          </User>
-        ) : (
-          <Link
-            to='/signin'
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <Button>
-              <CgProfile />
-              Sign in
-            </Button>
-          </Link>
-        )}
-      </Wrapper>
-    </Container>
-  );
-}
+const UploadBtn = styled.div`
+  cursor:pointer;
+`

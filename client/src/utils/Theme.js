@@ -2,6 +2,7 @@ export const lightTheme = {
   // bg: '#f9f9f9',
   bg: 'pink',
   bgSide: '#ededed',
+  bgLighter:'#222222',
   text: 'black',
   textSoft: '#606060',
   soft: '#f5f5f5',
