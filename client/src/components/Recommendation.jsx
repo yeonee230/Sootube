@@ -1,0 +1,34 @@
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import VideoCard from './VideoCard';
+
+export default function Recommendation({ tags }) {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      const res = await axios.get(`/videos/tags?tags=${tags}`);
+      setVideos(res.data);
+    };
+    fetchVideos();
+  }, [tags]);
+
+  return (
+    <Container>
+      {videos.map((video) => {
+        return (
+          <VideoCard
+            type='sm'
+            key={video._id}
+            video={video}
+          />
+        );
+      })}
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  flex: 2;
+`;

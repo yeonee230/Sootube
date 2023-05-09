@@ -8,13 +8,13 @@ import {
 } from 'react-icons/ai';
 import { RiShareForwardLine, RiDownloadLine } from 'react-icons/ri';
 import Comments from '../components/Comments';
-import VideoCard from '../components/VideoCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { dislike, fetchSuccess, like } from '../redux/videoSlice';
 import { format } from 'timeago.js';
 import { subscription } from '../redux/userSlice';
+import Recommendation from '../components/Recommendation';
 
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
@@ -118,11 +118,7 @@ export default function Video() {
         <Hr />
         <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recommendation>
-        <VideoCard type="sm"/>
-        <VideoCard type="sm"/>
-        <VideoCard type="sm"/>
-      </Recommendation> */}
+      <Recommendation tags={currentVideo.tags} />
     </Container>
   );
 }
@@ -171,9 +167,7 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Recommendation = styled.div`
-  flex: 2;
-`;
+
 
 const Channel = styled.div`
   display: flex;
