@@ -1,14 +1,139 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import {
+  AiOutlineLike,
+  AiOutlineDislike,
+  AiFillLike,
+  AiFillDislike,
+} from 'react-icons/ai';
 import { RiShareForwardLine, RiDownloadLine } from 'react-icons/ri';
 import Comments from '../components/Comments';
 import VideoCard from '../components/VideoCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { fetchSuccess } from '../redux/videoSlice';
+import { dislike, fetchSuccess, like } from '../redux/videoSlice';
 import { format } from 'timeago.js';
+import { subscription } from '../redux/userSlice';
+
+export default function Video() {
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser: currentVideo } = useSelector((state) => state.video);
+
+  const dispatch = useDispatch();
+  const path = useLocation().pathname.split('/')[2];
+
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
+
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (error) {
+        console.log('error::', error);
+      }
+    };
+
+    fetchData();
+  }, [path, dispatch]);
+
+  const handleLike = async () => {
+    await axios.put(`/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
+
+  const handleDislike = async () => {
+    await axios.put(`/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
+
+  const handleSubscribe = async () => {
+    currentUser.subscribedUsers.includes(channel._id)
+      ? await axios.put(`/users/unsub/${channel._id}`)
+      : await axios.put(`/users/sub/${channel._id}`);
+
+    dispatch(subscription(channel._id));
+  };
+
+  return (
+    <Container>
+      <Content>
+        <VideoWrapper>
+          <iframe
+            title='title'
+            width='100%'
+            height='600'
+            src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+            allow='accelerometer;autoplay;clipboard-write;encrypted-media; gyroscope; picture-in-picture'
+            allowFullScreen
+          />
+        </VideoWrapper>
+        <Title>{currentVideo.title}</Title>
+        <Details>
+          <Info>
+            {currentVideo.views} views • {format(currentVideo.createdAt)}
+          </Info>
+          <Buttons>
+            <Button onClick={handleLike}>
+              {currentVideo.likes?.includes(currentUser._id) ? (
+               <AiFillLike /> 
+              ) : (
+                <AiOutlineLike />
+              )}
+              {currentVideo.likes?.length}
+            </Button>
+            <Button onClick={handleDislike}>
+              {currentVideo.dislikes?.includes(currentUser._id) ? (
+                <AiFillDislike />
+              ) : (
+                <AiOutlineDislike />
+              )}
+              Dislike
+            </Button>
+            <Button>
+              <RiShareForwardLine />
+              Share
+            </Button>
+            <Button>
+              <RiDownloadLine />
+              Download
+            </Button>
+          </Buttons>
+        </Details>
+        <Hr />
+        <Channel>
+          <ChannelInfo>
+            <Image src={channel.img} />
+            <ChannelDetail>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
+              <Description>{currentVideo.desc}</Description>
+            </ChannelDetail>
+          </ChannelInfo>
+          <Subscribe onClick={handleSubscribe}>
+            {currentUser.subscribedUsers?.includes(channel._id)
+              ? 'Subscribed'
+              : 'Subscribe'}
+          </Subscribe>
+        </Channel>
+        <Hr />
+        <Comments />
+      </Content>
+      {/* <Recommendation>
+        <VideoCard type="sm"/>
+        <VideoCard type="sm"/>
+        <VideoCard type="sm"/>
+      </Recommendation> */}
+    </Container>
+  );
+}
+
 const Container = styled.div`
   display: flex;
   gap: 24px;
@@ -41,6 +166,7 @@ const Button = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
 `;
 const Hr = styled.hr`
   margin: 15px 0;
@@ -93,93 +219,3 @@ const Subscribe = styled.button`
   padding: 10px 20px;
   cursor: pointer;
 `;
-
-export default function Video() {
-  const {currentUser} = useSelector((state) => state.user)
-  const {currentUser:currentVideo} = useSelector((state) => state.video)
- 
-  const dispatch = useDispatch()
-  const path = useLocation().pathname.split('/')[2]
-  
-  const [channel, setChannel] = useState({})
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const videoRes = await axios.get(`/videos/find/${path}`)
-        const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
-
-        setChannel(channelRes.data)
-        dispatch(fetchSuccess(videoRes.data))
-     
-      } catch (error) {
-        console.log("error::",error)
-      }
-    }
-
-    fetchData()
-   
-
-  }, [path,dispatch])
-
-  return (
-    <Container>
-      <Content>
-        <VideoWrapper>
-          <iframe
-            title='title'
-            width='100%'
-            height='600'
-            src='https://www.youtube.com/watch?v=AjnByCGS2Bs'
-            frameborder='0'
-            // allow='accelerometer;autoplay;clipboard-write;encrypted-media; gyroscope; picture-in-picture'
-            allowFullScreen
-          />
-        </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
-        <Details>
-          <Info>{currentVideo.views} views • 123123</Info>
-          <Buttons>
-            <Button>
-              <AiOutlineLike />
-              {currentVideo.likes?.length}
-            </Button>
-            <Button>
-              <AiOutlineDislike />
-              Dislike
-            </Button>
-            <Button>
-              <RiShareForwardLine />
-              Share
-            </Button>
-            <Button>
-              <RiDownloadLine />
-              Download
-            </Button>
-          </Buttons>
-        </Details>
-        <Hr />
-        <Channel>
-          <ChannelInfo>
-            <Image src={channel.img} />
-            <ChannelDetail>
-              <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
-              <Description>
-              비디오 설명
-              </Description>
-            </ChannelDetail>
-          </ChannelInfo>
-          <Subscribe>Subscribe</Subscribe>
-        </Channel>
-        <Hr />
-        <Comments />
-      </Content>
-      {/* <Recommendation>
-        <VideoCard type="sm"/>
-        <VideoCard type="sm"/>
-        <VideoCard type="sm"/>
-      </Recommendation> */}
-    </Container>
-  );
-}
