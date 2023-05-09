@@ -42,3 +42,36 @@ export const signin = async (req, res, next) => {
     next(err);
   }
 };
+
+export const googleAuth = async (req, res, next) => {
+  const { email, name, img } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT);
+      res
+        .cookie('access_token', token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json(user._doc);
+    } else {
+      //구글로 로그인했는데 처음으로 로그인함.
+      const newUser = new User({
+        ...req.body,
+        fromGoogle: true,
+      });
+      const savedUser = await newUser.save() //디비에 저장하고
+      //jwt 준다. 
+      const token = jwt.sign({ id: savedUser._id }, process.env.JWT);
+      res
+        .cookie('access_token', token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json(savedUser._doc);
+    }
+  } catch (error) {
+    next(err)
+  }
+};

@@ -82,7 +82,7 @@ export default function Navbar() {
         {currentUser ? (
           <User>
             <AiOutlineVideoCamera />
-            <Avatar />
+            <Avatar src={currentUser.img} />
             {currentUser.name}
           </User>
         ) : (
