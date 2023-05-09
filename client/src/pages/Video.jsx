@@ -65,14 +65,7 @@ export default function Video() {
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
-            title='title'
-            width='100%'
-            height='600'
-            src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-            allow='accelerometer;autoplay;clipboard-write;encrypted-media; gyroscope; picture-in-picture'
-            allowFullScreen
-          />
+          <VideoFrame src={currentVideo.videoUrl} />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -82,7 +75,7 @@ export default function Video() {
           <Buttons>
             <Button onClick={handleLike}>
               {currentVideo.likes?.includes(currentUser._id) ? (
-               <AiFillLike /> 
+                <AiFillLike />
               ) : (
                 <AiOutlineLike />
               )}
@@ -123,7 +116,7 @@ export default function Video() {
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments />
+        <Comments videoId={currentVideo._id} />
       </Content>
       {/* <Recommendation>
         <VideoCard type="sm"/>
@@ -134,6 +127,11 @@ export default function Video() {
   );
 }
 
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
 const Container = styled.div`
   display: flex;
   gap: 24px;

@@ -1,5 +1,37 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { format } from 'timeago.js';
+
+export default function Comment({ comment }) {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        const res = await axios.get(`/users/find/${comment.userId}`);
+        setChannel(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchComment();
+  }, [comment.userId]);
+
+  return (
+    <Container>
+      <Avatar src={channel.img} />
+      <Details>
+        <Name>
+          {channel.name} <Date>{format(comment.createdAt)}</Date>
+        </Name>
+
+        <Text>{comment.desc}</Text>
+      </Details>
+    </Container>
+  );
+}
 
 const Container = styled.div`
   display: flex;
@@ -32,20 +64,3 @@ const Date = styled.span`
 const Text = styled.span`
   font-size: 14px;
 `;
-
-export default function Comment() {
-  return (
-    <Container>
-      <Avatar />
-      <Details>
-        <Name>
-          Soo <Date>1 day ago</Date>
-        </Name>
-
-        <Text>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, quae?
-        </Text>
-      </Details>
-    </Container>
-  );
-}
