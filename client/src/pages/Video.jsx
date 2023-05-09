@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { RiShareForwardLine, RiDownloadLine } from 'react-icons/ri';
 import Comments from '../components/Comments';
 import VideoCard from '../components/VideoCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { fetchSuccess } from '../redux/videoSlice';
+import { format } from 'timeago.js';
 const Container = styled.div`
   display: flex;
   gap: 24px;
@@ -90,6 +95,33 @@ const Subscribe = styled.button`
 `;
 
 export default function Video() {
+  const {currentUser} = useSelector((state) => state.user)
+  const {currentUser:currentVideo} = useSelector((state) => state.video)
+ 
+  const dispatch = useDispatch()
+  const path = useLocation().pathname.split('/')[2]
+  
+  const [channel, setChannel] = useState({})
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`)
+        const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
+
+        setChannel(channelRes.data)
+        dispatch(fetchSuccess(videoRes.data))
+     
+      } catch (error) {
+        console.log("error::",error)
+      }
+    }
+
+    fetchData()
+   
+
+  }, [path,dispatch])
+
   return (
     <Container>
       <Content>
@@ -104,13 +136,13 @@ export default function Video() {
             allowFullScreen
           />
         </VideoWrapper>
-        <Title>비디오 타이틀</Title>
+        <Title>{currentVideo.title}</Title>
         <Details>
-          <Info>100,000 views • Jun 13, 2023</Info>
+          <Info>{currentVideo.views} views • 123123</Info>
           <Buttons>
             <Button>
               <AiOutlineLike />
-              100
+              {currentVideo.likes?.length}
             </Button>
             <Button>
               <AiOutlineDislike />
@@ -129,15 +161,12 @@ export default function Video() {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image />
+            <Image src={channel.img} />
             <ChannelDetail>
-              <ChannelName>Soo</ChannelName>
-              <ChannelCounter>100K subscribers</ChannelCounter>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
               <Description>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Tempora qui officia inventore quibusdam dolores obcaecati, esse
-                excepturi sed nam sint atque laboriosam dolorem et, ex delectus.
-                Impedit quisquam maiores dolorum?
+              비디오 설명
               </Description>
             </ChannelDetail>
           </ChannelInfo>
@@ -146,11 +175,11 @@ export default function Video() {
         <Hr />
         <Comments />
       </Content>
-      <Recommendation>
+      {/* <Recommendation>
         <VideoCard type="sm"/>
         <VideoCard type="sm"/>
         <VideoCard type="sm"/>
-      </Recommendation>
+      </Recommendation> */}
     </Container>
   );
 }

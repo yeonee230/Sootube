@@ -64,7 +64,7 @@ export default function VideoCard({video,type}) {
   return (
     <Container
       onClick={() =>
-        navigate(`/videos/watch/:videoId`,{ state: { video }})
+        navigate(`/videos/${video._id}`,{ state: { video }})
       }
       type={type}
     >

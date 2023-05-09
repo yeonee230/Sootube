@@ -30,8 +30,8 @@ const router = createBrowserRouter([
       { path: "/subscriptions", element: <Home type="sub"/> },
       { path: "/signin", element: <SingIn/> },
       { path: "/videos", element: <Home/> },
-      { path: "/videos/:keyword", element: <Home /> },
-      { path: "/videos/watch/:videoId", element: <Video /> },
+      { path: "/videos/search/:keyword", element: <Home /> },
+      { path: "/videos/:videoId", element: <Video /> },
     ],
   },
 ]);
