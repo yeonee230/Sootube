@@ -18,7 +18,7 @@ import { subscription } from '../redux/userSlice';
 
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
-  const { currentUser: currentVideo } = useSelector((state) => state.video);
+  const { currentVideo } = useSelector((state) => state.video);
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
@@ -65,7 +65,7 @@ export default function Video() {
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.videoUrl} />
+          <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
