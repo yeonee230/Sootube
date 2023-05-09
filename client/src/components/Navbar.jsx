@@ -2,24 +2,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 import { BiSearch } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AiOutlineVideoCamera } from 'react-icons/ai';
 import Upload from './Upload';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [q, setQ] = useState('');
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate()
 
   return (
     <>
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder='Search...' />
-            <Button>
+            <Input placeholder='Search...' onChange={(e) => setQ(e.target.value)} />
+            <BiSearch style={{cursor:'pointer'}}onClick={() => navigate(`/search?q=${q}`)}/>
+            {/* <Button>
               <BiSearch />
-            </Button>
+            </Button> */}
           </Search>
           {currentUser ? (
             <User>
@@ -73,6 +76,7 @@ const Search = styled.div`
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
+  color: ${({ theme }) => theme.text};
 `;
 const Input = styled.input`
   border: none;
