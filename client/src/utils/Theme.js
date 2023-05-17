@@ -1,6 +1,5 @@
 export const lightTheme = {
-  // bg: '#f9f9f9',
-  bg: 'pink',
+  bg: '#f9f9f9',
   bgSide: '#ededed',
   bgLighter:'#222222',
   text: 'black',
