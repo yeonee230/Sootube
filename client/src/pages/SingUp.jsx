@@ -1,72 +1,31 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
-import { auth, provider } from '../firebase';
-import { signInWithPopup } from 'firebase/auth';
-import { useNavigate,Link } from 'react-router-dom';
 
-export default function SingIn() {
+export default function SingUp() {
   const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    dispatch(loginStart());
-    try {
-      const res = await axios.post('/auth/signin', {
-        name,
-        password,
-      });
-
-      dispatch(loginSuccess(res.data));
-    } catch (error) {
-      dispatch(loginFailure());
-    }
-  };
-  const signInWithGoogle = async () => {
-    dispatch(loginStart())
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        axios
-          .post('/auth/google', {
-            name: result.user.displayName,
-            email: result.user.email,
-            img: result.user.photoURL,
-          })
-          .then((res) => {
-            dispatch(loginSuccess(res.data));
-            navigate('/')
-          });
-      })
-      .catch((error) => {
-        dispatch(loginFailure())
-      });
-  };
   return (
     <Container>
       <Wrapper>
-        <Title>Sign in</Title>
-        <SubTitle>to continue to Sootube</SubTitle>
+        <Title>Sign up</Title>
         <Input
           placeholder='username'
           onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          placeholder='email'
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           type='password'
           placeholder='password'
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={handleLogin}>Sign In</Button>
-        <Title>OR</Title>
-        <Button onClick={signInWithGoogle}>Sign in with Google </Button>
-        
-        <Link to='/signup'>
-        <GotoLink>Create account</GotoLink>
+        <Button>Sign Up</Button>
+        <Link to='/signin'>
+          <GotoLink>Sign in instead</GotoLink>
         </Link>
       </Wrapper>
       <More>
@@ -81,7 +40,6 @@ export default function SingIn() {
   );
 }
 
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -89,7 +47,6 @@ const Container = styled.div`
   height: calc(100vh - 56px);
   color: ${({ theme }) => theme.text};
   flex-direction: column;
-  
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -105,10 +62,7 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-size: 24px;
 `;
-const SubTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 300;
-`;
+
 const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.soft};
   border-radius: 3px;
@@ -122,7 +76,7 @@ const Button = styled.button`
   padding: 10px 20px;
   font-weight: 300;
   cursor: pointer;
-  background-color: #1464d5;;
+  background-color: #1464d5;
   color: white;
   &:hover {
     transition: all .2s ease-in-out;
@@ -138,7 +92,6 @@ const More = styled.div`
 const Links = styled.div`
   margin-left: 50px;
 `;
-
 const LinkItem = styled.span`
   margin-left: 30px;
 `;
@@ -146,4 +99,5 @@ const LinkItem = styled.span`
 const GotoLink = styled.span`
     color: #1464d5;
     font-size: 12px;
+    
 `

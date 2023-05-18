@@ -17,4 +17,4 @@ export const darkTheme = {
   soft: '#303030',
 };
 
-//#ff0000;
+//#1464d5

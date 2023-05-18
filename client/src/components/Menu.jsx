@@ -140,6 +140,7 @@ const Container = styled.div`
 `;
 const Wrapper = styled.div`
   padding: 18px 26px;
+  width: 100%;
 `;
 
 const Logo = styled.div`
@@ -158,6 +159,9 @@ const Icon = styled.div`
   display: flex;
   align-items: center;
   font-size: 30px;
+  svg{
+    font-size: 2rem;
+  }
 `;
 
 const Item = styled.div`
