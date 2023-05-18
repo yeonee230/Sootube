@@ -3,20 +3,21 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import VideoCard from './VideoCard';
 
-export default function Recommendation({ tags }) {
+export default function Recommendation({ tags,videoId }) {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/tags?tags=${tags}`);
+      const res = await axios.get(`/videos/tags?tags=${tags}&videoId=${videoId}`);
       setVideos(res.data);
     };
     fetchVideos();
   }, [tags]);
 
   return (
+   
     <Container>
-      {videos.map((video) => {
+      { videos.length === 0  ? <h4>😭 연관비디오가 없습니다.</h4> : videos.map((video) => { 
         return (
           <VideoCard
             type='sm'

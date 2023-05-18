@@ -109,10 +109,13 @@ export const sub = async (req, res, next) => {
 
 export const getByTags = async (req, res, next) => {
   const tags = req.query.tags.split(",")
+  const videoId = req.query.videoId;
   
   try {
     const videos = await Video.find({tags:{$in:tags}}).limit(20);
-    res.status(200).json(videos);
+    // 중복 제거해야함. 자기자신 제거해야함. 
+    const filteredVideos = videos.filter(video => video._id.toString() !== videoId)
+    res.status(200).json(filteredVideos);
   } catch (error) {
     next(error);
   }
