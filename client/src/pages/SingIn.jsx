@@ -7,59 +7,6 @@ import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 56px);
-  color: ${({ theme }) => theme.text};
-  flex-direction: column;
-`;
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.bgLighter};
-  border: 1px solid ${({ theme }) => theme.soft};
-  padding: 20px 70px;
-  gap: 10px;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-`;
-const SubTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 300;
-`;
-const Input = styled.input`
-  border: 1px solid ${({ theme }) => theme.soft};
-  border-radius: 3px;
-  padding: 10px;
-  background-color: transparent;
-  width: 100%;
-`;
-const Button = styled.button`
-  border-radius: 3px;
-  border: none;
-  padding: 10px 20px;
-  font-weight: 500;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.soft};
-  color: ${({ theme }) => theme.textSoft};
-`;
-const More = styled.div`
-  display: flex;
-  margin-top: 10px;
-  font-size: 10px;
-  color: ${({ theme }) => theme.textSoft};
-`;
-const Links = styled.div`
-  margin-left: 50px;
-`;
-const Link = styled.span`
-  margin-left: 30px;
-`;
 export default function SingIn() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -104,7 +51,7 @@ export default function SingIn() {
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
-        <SubTitle>to continue to Soo</SubTitle>
+        <SubTitle>to continue to Sootube</SubTitle>
         <Input
           placeholder='username'
           onChange={(e) => setName(e.target.value)}
@@ -116,8 +63,9 @@ export default function SingIn() {
         />
         <Button onClick={handleLogin}>Sign In</Button>
         <Title>OR</Title>
-        <Button onClick={signInWithGoogle}>Signin with Google </Button>
-        <Title>OR</Title>
+        <Button onClick={signInWithGoogle}>Sign in with Google </Button>
+        <Hr />
+        <Title>Sign up</Title>
         <Input
           placeholder='username'
           onChange={(e) => setName(e.target.value)}
@@ -144,3 +92,65 @@ export default function SingIn() {
     </Container>
   );
 }
+
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 56px);
+  color: ${({ theme }) => theme.text};
+  flex-direction: column;
+  
+`;
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.bg};
+  border: 1px solid ${({ theme }) => theme.soft};
+  padding: 20px 70px;
+  gap: 10px;
+  border-radius: 10px;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+`;
+const SubTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 300;
+`;
+const Input = styled.input`
+  border: 1px solid ${({ theme }) => theme.soft};
+  border-radius: 3px;
+  padding: 10px;
+  background-color: transparent;
+  width: 100%;
+`;
+const Button = styled.button`
+  border-radius: 3px;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 300;
+  cursor: pointer;
+  background-color: #1464d5;;
+  color: white;
+`;
+const More = styled.div`
+  display: flex;
+  margin-top: 10px;
+  font-size: 10px;
+  color: ${({ theme }) => theme.textSoft};
+`;
+const Links = styled.div`
+  margin-left: 50px;
+`;
+const Link = styled.span`
+  margin-left: 30px;
+`;
+
+const Hr = styled.hr`
+  margin: 15px 0;
+  border: 0.5px solid ${({ theme }) => theme.soft};
+`;

@@ -17,6 +17,118 @@ import { RiGamepadLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+export default function Menu({ darkMode, setDarkMode }) {
+  const { currentUser } = useSelector((state) => state.user);
+  return (
+    <Container>
+      <Wrapper>
+        <Link
+          to='/'
+          style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Logo>
+            <Icon>
+              <BsYoutube />
+            </Icon>
+            SooTube
+          </Logo>
+        </Link>
+
+        <Link
+          to='/'
+          style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Item>
+            <AiFillHome />
+            Home
+          </Item>
+        </Link>
+        <Link
+          to='/trends'
+          style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Item>
+            <MdOutlineExplore />
+            Explore
+          </Item>
+        </Link>
+        <Link
+          to='/subscriptions'
+          style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Item>
+            <MdOutlineSubscriptions />
+            Subscription
+          </Item>
+        </Link>
+        <Hr />
+        <Item>
+          <MdVideoLibrary />
+          Library
+        </Item>
+        <Item>
+          <MdHistory />
+          History
+        </Item>
+        <Hr />
+        {!currentUser && (
+          <>
+            <Login>
+              Sign in like videos, comment and subscribe.
+              <Link
+                to='/signin'
+                style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Button>
+                  <CgProfile />
+                  Sign in
+                </Button>
+              </Link>
+            </Login>
+            <Hr />
+          </>
+        )}
+        <Item>
+          <MdLibraryMusic />
+          Music
+        </Item>
+        <Item>
+          <AiOutlineTrophy />
+          Sports
+        </Item>
+        <Item>
+          <RiGamepadLine />
+          Gaming
+        </Item>
+        <Item>
+          <MdOutlineMovie />
+          Movies
+        </Item>
+        <Item>
+          <HiOutlineNewspaper />
+          News
+        </Item>
+        <Item>
+          <CgMediaLive />
+          Live
+        </Item>
+        <Hr />
+        <Item>
+          <AiOutlineSetting />
+          Settings
+        </Item>
+        <Item>
+          <HiOutlineFlag />
+          Report
+        </Item>
+        <Item>
+          <MdHelpOutline />
+          Help
+        </Item>
+        <Item onClick={() => setDarkMode(!darkMode)}>
+          <CgDarkMode />
+          {darkMode ? 'Light' : 'Dark'} Mode
+        </Item>
+      </Wrapper>
+    </Container>
+  );
+}
+
 const Container = styled.div`
   flex: 1;
   background-color: ${({ theme }) => theme.bgSide};
@@ -72,7 +184,7 @@ const Login = styled.div`
 const Button = styled.button`
   padding: 5px 15px;
   background-color: transparent;
-  border: 1px solid #3ea6ff;
+  border: 1px solid ${({ theme }) => theme.soft};
   color: #3ea6ff;
   border-radius: 20px;
   font-weight: 500;
@@ -81,121 +193,8 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 5px;
+  &:hover {
+    background-color: rgb(61, 166, 255, 0.3);
+    border: 1px solid rgb(61, 166, 255, 0.3);
+  }
 `;
-
-export default function Menu({ darkMode, setDarkMode }) {
-  const { currentUser } = useSelector((state) => state.user);
-  return (
-    <Container>
-      <Wrapper>
-        <Link
-          to='/'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          <Logo>
-            <Icon>
-              <BsYoutube />
-            </Icon>
-            SooTube
-          </Logo>
-        </Link>
-
-        <Link
-          to='/'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          <Item>
-            <AiFillHome />
-            Home
-          </Item>
-        </Link>
-        <Link
-          to='/trends'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          <Item>
-            <MdOutlineExplore />
-            Explore
-          </Item>
-        </Link>
-        <Link
-          to='/subscriptions'
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          <Item>
-            <MdOutlineSubscriptions />
-            Subscription
-          </Item>
-        </Link>
-        <Hr />
-        <Item>
-          <MdVideoLibrary />
-          Library
-        </Item>
-        <Item>
-          <MdHistory />
-          History
-        </Item>
-        <Hr />
-        {!currentUser && (
-          <>
-            <Login>
-              Sign in like videos, comment and subscribe.
-              <Link
-                to='/signin'
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                <Button>
-                  <CgProfile />
-                  Sign in
-                </Button>
-              </Link>
-            </Login>
-            <Hr />
-          </>
-        )}
-        <Item>
-          <MdLibraryMusic />
-          Music
-        </Item>
-        <Item>
-          <AiOutlineTrophy />
-          Sports
-        </Item>
-        <Item>
-          <RiGamepadLine />
-          Gaming
-        </Item>
-        <Item>
-          <MdOutlineMovie />
-          Movies
-        </Item>
-        <Item>
-          <HiOutlineNewspaper />
-          News
-        </Item>
-        <Item>
-          <CgMediaLive />
-          Live
-        </Item>
-        <Hr />
-        <Item>
-          <AiOutlineSetting />
-          Settings
-        </Item>
-        <Item>
-          <HiOutlineFlag />
-          Report
-        </Item>
-        <Item>
-          <MdHelpOutline />
-          Help
-        </Item>
-        <Item onClick={() => setDarkMode(!darkMode)}>
-          <CgDarkMode />
-          {darkMode ? 'Light' : 'Dark'} Mode
-        </Item>
-      </Wrapper>
-    </Container>
-  );
-}

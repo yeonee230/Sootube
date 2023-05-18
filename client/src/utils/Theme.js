@@ -1,20 +1,20 @@
 export const lightTheme = {
   bg: '#f9f9f9',
-  bgSide: '#ededed',
-  bgLighter:'#222222',
+  bgSide: '#f9f9f9',
+  bgLighter:'#E5E5E5',
   text: 'black',
   textSoft: '#606060',
-  soft: '#f5f5f5',
+  soft: '#C6C6C6',
 };
 
 
 export const darkTheme = {
   bg: '#0F0F0F',
-  bgSide: '#7c7c7c',
-  bgLighter:'#222222',
+  bgSide: '#0F0F0F',
+  bgLighter:'#3F3F3F',
   text: 'white',
-  textSoft: '#ccc',
-  soft: '#222222',
+  textSoft: '#F1F1F1',
+  soft: '#303030',
 };
 
 //#ff0000;

@@ -12,25 +12,31 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogout = async() =>{
-    dispatch(logout(""));
-    alert("😭 Good bye!");
-    navigate("/");
-  }
+  const handleLogout = async () => {
+    dispatch(logout(''));
+    alert('😭 Good bye!');
+    navigate('/');
+  };
 
   return (
     <>
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder='Search...' onChange={(e) => setQ(e.target.value)} />
-            <BiSearch style={{cursor:'pointer'}}onClick={() => navigate(`/search?q=${q}`)}/>
-            {/* <Button>
-              <BiSearch />
-            </Button> */}
+            <Input
+              placeholder='Search...'
+              onChange={(e) => setQ(e.target.value)}
+            />
+            {/* <BiSearch
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate(`/search?q=${q}`)}
+            /> */}
+            <SearchBtn>
+              <BiSearch onClick={() => navigate(`/search?q=${q}`)} />
+            </SearchBtn>
           </Search>
           {currentUser ? (
             <User>
@@ -44,8 +50,7 @@ export default function Navbar() {
           ) : (
             <Link
               to='/signin'
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
+              style={{ textDecoration: 'none', color: 'inherit' }}>
               <Button>
                 <CgProfile />
                 Sign in
@@ -75,6 +80,7 @@ const Wrapper = styled.div`
 `;
 const Search = styled.div`
   width: 40%;
+  height: 30px;
   position: absolute;
   left: 0;
   right: 0;
@@ -82,22 +88,31 @@ const Search = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: 1px solid ${({ theme }) => theme.soft};
+  border-radius: 20px;
   color: ${({ theme }) => theme.text};
+  padding: 0 8px;
 `;
 const Input = styled.input`
   border: none;
   width: 100%;
   background-color: transparent;
   color: ${({ theme }) => theme.text};
+  outline: none;
+`;
+const SearchBtn = styled.button`
+  border-radius: 0 40px 40px 0;
+  cursor: pointer;
+  /* background: ${({ theme }) => theme.soft}; */
+  background: transparent;
+  border: none;
+  color: ${({ theme }) => theme.text};
 `;
 const Button = styled.button`
   padding: 7px;
   background-color: transparent;
-  border: 1px solid #ccc;
-  color: #3ea6ff;
+  border: 1px solid ${({ theme }) => theme.soft};
+  color: #3ea6ff;;
   border-radius: 20px;
   font-weight: 500;
   cursor: pointer;
@@ -105,6 +120,10 @@ const Button = styled.button`
   align-items: center;
   gap: 5px;
   font-size: 15px;
+  &:hover {
+    background-color: rgb(61, 166, 255, 0.3);
+    border: 1px solid rgb(61, 166, 255, 0.3);
+  }
 `;
 
 const User = styled.div`
@@ -123,5 +142,5 @@ const Avatar = styled.img`
 `;
 
 const UploadBtn = styled.div`
-  cursor:pointer;
-`
+  cursor: pointer;
+`;
