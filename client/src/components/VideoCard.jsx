@@ -12,7 +12,7 @@ export default function VideoCard({video,type}) {
   useEffect(() => {
       const fetchChannel = async () =>{
           const res = await axios.get(`/users/find/${video.userId}`)
-          console.log("res:",res)
+          console.log("videoCard res:",res)
           setChannel(res.data)
       }
       fetchChannel()

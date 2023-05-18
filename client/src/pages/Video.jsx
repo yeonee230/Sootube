@@ -29,6 +29,7 @@ export default function Video() {
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`/videos/find/${path}`);
+        console.log('videoRes::',videoRes)
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
         );
@@ -74,7 +75,7 @@ export default function Video() {
           </Info>
           <Buttons>
             <Button onClick={handleLike}>
-              {currentVideo.likes?.includes(currentUser._id) ? (
+              {currentVideo.likes?.includes(currentUser?._id) ? (
                 <AiFillLike />
               ) : (
                 <AiOutlineLike />
@@ -82,7 +83,7 @@ export default function Video() {
               {currentVideo.likes?.length}
             </Button>
             <Button onClick={handleDislike}>
-              {currentVideo.dislikes?.includes(currentUser._id) ? (
+              {currentVideo.dislikes?.includes(currentUser?._id) ? (
                 <AiFillDislike />
               ) : (
                 <AiOutlineDislike />
@@ -110,7 +111,7 @@ export default function Video() {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSubscribe}>
-            {currentUser.subscribedUsers?.includes(channel._id)
+            {currentUser?.subscribedUsers?.includes(channel._id)
               ? 'Subscribed'
               : 'Subscribe'}
           </Subscribe>
