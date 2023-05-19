@@ -8,7 +8,7 @@ export const videoSlice = createSlice({
     error: false,
   },
   reducers: {
-    fetchStart: (state) => {
+    fetchStart: (state) => { 
       state.loading = true;
     },
     fetchSuccess: (state, action) => {

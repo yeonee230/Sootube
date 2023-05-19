@@ -12,7 +12,7 @@ export default function Recommendation({ tags,videoId }) {
       setVideos(res.data);
     };
     fetchVideos();
-  }, [tags]);
+  }, [tags,videoId]);
 
   return (
    
