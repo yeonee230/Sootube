@@ -26,7 +26,8 @@ export default function Comments({ videoId }) {
     <Container>
       <NewComment>
         <Avatar src={currentUser?.img} />
-        <Input placeholder='Add a comment...' />
+        <Input placeholder='Add a comment...' /> 
+        {/* TODO:comment 추가하는 기능 만들어야함. */}
       </NewComment>
       {comments.map((comment) => (
         <Comment

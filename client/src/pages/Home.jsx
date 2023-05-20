@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import VideoCard from '../components/VideoCard';
 import axios from 'axios'
 
-const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-`
 export default function Home({type}) {
     const [videos, setVideos] = useState([])
 
@@ -25,4 +20,10 @@ export default function Home({type}) {
         </Container>
     );
 }
+
+const Container = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`
 
