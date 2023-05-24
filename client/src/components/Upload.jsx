@@ -85,8 +85,8 @@ export default function Upload({ setOpen }) {
     console.log('res',res)
 
     //test
-    const res = await axios.post(`http://localhost:8800/api/videos`, { ...inputs, tags, userId:currentUser._id });
-    console.log('res',res)
+    // const res = await axios.post(`http://localhost:8800/api/videos`, { ...inputs, tags, userId:currentUser._id });
+    // console.log('res',res)
     setOpen(false);
     res.status === 200 && navigate(`/videos/${res.data._id}`);
   };
