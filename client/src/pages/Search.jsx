@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import VideoCard from '../components/VideoCard';
+import { serverUrl } from '../utils/api';
 
 export default function Search() {
 
@@ -12,7 +13,7 @@ export default function Search() {
 
     useEffect(() => {
     const fetchVideos = async () =>{
-        const res = await axios.get(`/videos/search${query}`)
+        const res = await axios.get(`${serverUrl}/videos/search${query}`)
         setVideos(res.data)
     }
     fetchVideos()

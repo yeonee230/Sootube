@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { serverUrl } from '../utils/api';
 import Comment from './Comment';
 
 export default function Comments({ videoId }) {
@@ -12,7 +13,7 @@ export default function Comments({ videoId }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/comments/${videoId}`);
+        const res = await axios.get(`${serverUrl}/comments/${videoId}`);
         setComments(res.data);
       } catch (error) {
         console.log(error);

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { serverUrl } from '../utils/api';
 import VideoCard from './VideoCard';
 
 export default function Recommendation({ tags,videoId }) {
@@ -8,7 +9,7 @@ export default function Recommendation({ tags,videoId }) {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/tags?tags=${tags}&videoId=${videoId}`);
+      const res = await axios.get(`${serverUrl}/videos/tags?tags=${tags}&videoId=${videoId}`);
       setVideos(res.data);
     };
     fetchVideos();

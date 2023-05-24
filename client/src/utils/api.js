@@ -1,0 +1,1 @@
+export const serverUrl = 'https://sootube.onrender.com/api';

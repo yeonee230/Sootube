@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { serverUrl } from '../utils/api';
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -13,7 +14,7 @@ export default function SignUp() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('https://sootube.onrender.com/api/auth/signup', {
+      const res = await axios.post(`${serverUrl}/auth/signup`, {
         name,
         email,
         password,
@@ -44,7 +45,7 @@ export default function SignUp() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleSignUp}>Sign Up</Button>
-        <Link to='https://sootube.onrender.com/api/signin'>
+        <Link to={`${serverUrl}/signin`}>
           <GotoLink>Sign in instead</GotoLink>
         </Link>
       </Wrapper>

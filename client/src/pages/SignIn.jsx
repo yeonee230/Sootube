@@ -6,6 +6,7 @@ import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate,Link } from 'react-router-dom';
+import { serverUrl } from '../utils/api';
 
 export default function SignIn() {
   const [name, setName] = useState('');
@@ -18,7 +19,7 @@ export default function SignIn() {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post('https://sootube.onrender.com/api/auth/signin', {
+      const res = await axios.post(`${serverUrl}/auth/signin`, {
         name,
         password,
       });
@@ -33,7 +34,7 @@ export default function SignIn() {
     signInWithPopup(auth, provider)
       .then((result) => {
         axios
-          .post('/auth/google', {
+          .post(`${serverUrl}/auth/google`, {
             name: result.user.displayName,
             email: result.user.email,
             img: result.user.photoURL,
@@ -65,7 +66,7 @@ export default function SignIn() {
         <Title>OR</Title>
         <Button onClick={signInWithGoogle}>Sign in with Google </Button>
         
-        <Link to='/signup'>
+        <Link to={`${serverUrl}/signup`}>
         <GotoLink>Create account</GotoLink>
         </Link>
       </Wrapper>

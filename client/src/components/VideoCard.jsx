@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import {format} from 'timeago.js'
 import axios from 'axios';
+import { serverUrl } from '../utils/api';
 
 export default function VideoCard({video,type}) {
   const navigate = useNavigate();
@@ -11,8 +12,8 @@ export default function VideoCard({video,type}) {
 
   useEffect(() => {
       const fetchChannel = async () =>{
-          const res = await axios.get(`/users/find/${video.userId}`)
-          console.log("videoCard res:",res)
+          const res = await axios.get(`${serverUrl}/users/find/${video.userId}`)
+          // console.log("videoCard res:",res)
           setChannel(res.data)
       }
       fetchChannel()
@@ -21,7 +22,7 @@ export default function VideoCard({video,type}) {
   return (
     <Container
       onClick={() =>
-        navigate(`/videos/${video._id}`,{ state: { video }})
+        navigate(`${serverUrl}/videos/${video._id}`,{ state: { video }})
       }
       type={type}
     >

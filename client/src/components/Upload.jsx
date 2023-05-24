@@ -9,6 +9,7 @@ import {
 import app from '../firebase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { serverUrl } from '../utils/api';
 
 export default function Upload({ setOpen }) {
   const [img, setImg] = useState(undefined);
@@ -77,9 +78,9 @@ export default function Upload({ setOpen }) {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const res = await axios.post('/videos', { ...inputs, tags });
+    const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags });
     setOpen(false);
-    res.status === 200 && navigate(`/videos/${res.data._id}`);
+    res.status === 200 && navigate(`${serverUrl}/videos/${res.data._id}`);
   };
 
   return (
