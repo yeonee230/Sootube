@@ -7,7 +7,7 @@ import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate,Link } from 'react-router-dom';
 
-export default function SingIn() {
+export default function SignIn() {
   const [name, setName] = useState('');
   // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
