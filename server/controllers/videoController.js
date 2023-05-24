@@ -3,6 +3,7 @@ import User from '../models/User';
 import Video from '../models/Video';
 
 export const addVideo = async (req, res, next) => {
+  console.log('upload video req.body: ',req,body)
   const newVideo = await Video({ userId: req.user.id, ...req.body });
   try {
     const savedVideo = await newVideo.save();
