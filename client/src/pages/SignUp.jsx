@@ -45,7 +45,7 @@ export default function SignUp() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleSignUp}>Sign Up</Button>
-        <Link to={`${serverUrl}/signin`}>
+        <Link to='/signin'>
           <GotoLink>Sign in instead</GotoLink>
         </Link>
       </Wrapper>

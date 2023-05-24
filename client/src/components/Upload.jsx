@@ -80,7 +80,7 @@ export default function Upload({ setOpen }) {
     e.preventDefault();
     const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags });
     setOpen(false);
-    res.status === 200 && navigate(`${serverUrl}/videos/${res.data._id}`);
+    res.status === 200 && navigate(`/videos/${res.data._id}`);
   };
 
   return (

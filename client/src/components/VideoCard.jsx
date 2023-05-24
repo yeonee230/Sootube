@@ -22,7 +22,7 @@ export default function VideoCard({video,type}) {
   return (
     <Container
       onClick={() =>
-        navigate(`${serverUrl}/videos/${video._id}`,{ state: { video }})
+        navigate(`/videos/${video._id}`,{ state: { video }})
       }
       type={type}
     >

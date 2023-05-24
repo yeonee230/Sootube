@@ -66,7 +66,7 @@ export default function SignIn() {
         <Title>OR</Title>
         <Button onClick={signInWithGoogle}>Sign in with Google </Button>
         
-        <Link to={`${serverUrl}/signup`}>
+        <Link to='/signup'>
         <GotoLink>Create account</GotoLink>
         </Link>
       </Wrapper>

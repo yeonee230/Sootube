@@ -30,7 +30,7 @@ export default function Video() {
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
-        console.log('videoRes::',videoRes)
+        // console.log('videoRes::',videoRes)
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
