@@ -6,10 +6,12 @@ import videoRouters from './routers/videos';
 import commentRouters from './routers/comments';
 import authRouters from './routers/auth';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
 
 const app = express();
 const PORT = 8800;
 dotenv.config();
+app.use(cors())
 
 const connect = () => {
   mongoose.set('strictQuery', true);
