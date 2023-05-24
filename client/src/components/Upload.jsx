@@ -81,7 +81,11 @@ export default function Upload({ setOpen }) {
   const handleUpload = async (e) => {
     e.preventDefault();
     console.log('url',`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id })
-    const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id });
+    // const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id });
+    // console.log('res',res)
+
+    //test
+    const res = await axios.post(`http://localhost:8800/api/videos`, { userId:currentUser._id });
     console.log('res',res)
     setOpen(false);
     res.status === 200 && navigate(`/videos/${res.data._id}`);
@@ -144,7 +148,7 @@ const Container = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #000000c2;
+  background-color: #060101c2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,7 +158,7 @@ const Wrapper = styled.div`
   width: 600px;
   height: 600px;
   background-color: ${({ theme }) => theme.bgLigther};
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.textModal};
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -193,10 +197,13 @@ const Button = styled.button`
   border-radius: 3px;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.textSoft};
-  background-color: ${({ theme }) => theme.soft};
+  color: white;
+  background-color: #3ea6ff;
   font-weight: 500;
   padding: 10px 20px;
+  &:hover {
+    background-color: rgb(61, 166, 255, 0.8);
+  }
 `;
 
 const Label = styled.label`
