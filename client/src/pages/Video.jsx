@@ -23,28 +23,30 @@ export default function Video() {
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
-  console.log('path::',path)
+  console.log('path::', path);
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
-        console.log('videoRes1::',videoRes)
+        console.log('videoRes1::', videoRes);
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
 
         setChannel(channelRes.data);
-        console.log('videoRes2::',videoRes)
-        dispatch(fetchSuccess(videoRes.data)); 
-        console.log('videoRes3::',videoRes)
+        console.log('videoRes2::', videoRes);
+        dispatch(fetchSuccess(videoRes.data));
+        console.log('videoRes3::', videoRes);
       } catch (error) {
         console.log('error::', error);
       }
     };
 
     fetchData();
+
   }, [path, dispatch]);
 
   const handleLike = async () => {
@@ -68,8 +70,11 @@ export default function Video() {
   return (
     <Container>
       <Content>
-        <VideoWrapper>
-          <VideoFrame src={currentVideo.videoUrl} controls />
+        {/* <VideoWrapper>
+          <VideoFrame
+            src={currentVideo.videoUrl}
+            controls
+          />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -120,9 +125,12 @@ export default function Video() {
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id} />
+        <Comments videoId={currentVideo._id} /> */}
       </Content>
-      <Recommendation videoId={currentVideo._id} tags={currentVideo.tags} />
+      <Recommendation
+        videoId={currentVideo._id}
+        tags={currentVideo.tags}
+      />
     </Container>
   );
 }
@@ -170,8 +178,6 @@ const Hr = styled.hr`
   margin: 15px 0;
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
-
-
 
 const Channel = styled.div`
   display: flex;
