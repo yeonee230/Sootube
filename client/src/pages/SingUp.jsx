@@ -1,11 +1,31 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default function SingUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
+
+  const handleSignUp = async (e) =>{
+    e.preventDefault();
+
+    try {
+      const res = await axios.post('/auth/signup', {
+        name,
+        email,
+        password,
+      }).then((res) => {
+        navigate('/')
+      });;
+      console.log( res.data)
+    } catch (error) {
+      console.log( error)
+    }
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -23,13 +43,13 @@ export default function SingUp() {
           placeholder='password'
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign Up</Button>
+        <Button onClick={handleSignUp}>Sign Up</Button>
         <Link to='/signin'>
           <GotoLink>Sign in instead</GotoLink>
         </Link>
       </Wrapper>
       <More>
-        English(USA) {name},{email},{password}
+        English(USA)
         <Links>
           <LinkItem>Help</LinkItem>
           <LinkItem>Privacy</LinkItem>

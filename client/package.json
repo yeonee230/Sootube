@@ -47,5 +47,5 @@
   "devDependencies": {
     "eslint-config-react-app": "^7.0.1"
   },
-  "proxy": "https://sootube.onrender.com/api"
+  "proxy": "https://sootube.onrender.com/api/"
 }
