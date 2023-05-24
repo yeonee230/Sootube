@@ -23,8 +23,8 @@ export default function SignIn() {
         name,
         password,
       });
-
       dispatch(loginSuccess(res.data));
+      navigate('/')
     } catch (error) {
       dispatch(loginFailure());
     }
