@@ -18,7 +18,7 @@ export default function SignIn() {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post('/auth/signin', {
+      const res = await axios.post('https://sootube.onrender.com/api/auth/signin', {
         name,
         password,
       });

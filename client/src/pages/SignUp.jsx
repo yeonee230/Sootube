@@ -13,7 +13,7 @@ export default function SignUp() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('/auth/signup', {
+      const res = await axios.post('https://sootube.onrender.com/api/auth/signup', {
         name,
         email,
         password,
@@ -44,7 +44,7 @@ export default function SignUp() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleSignUp}>Sign Up</Button>
-        <Link to='/signin'>
+        <Link to='https://sootube.onrender.com/api/signin'>
           <GotoLink>Sign in instead</GotoLink>
         </Link>
       </Wrapper>
