@@ -51,7 +51,7 @@ export default function Video() {
     
   }, [path, dispatch]);
 
-  if (!currentVideo) {
+  if (!currentVideo) { //이 코드가 없으면 계속 오류가 생긴다. currentVideo === null 
     return <div>Loading...</div>; 
   }
 
