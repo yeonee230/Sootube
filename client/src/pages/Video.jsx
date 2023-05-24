@@ -37,16 +37,16 @@ export default function Video() {
         );
 
         setChannel(channelRes.data);
-        console.log('videoRes2::', videoRes);
+       
         dispatch(fetchSuccess(videoRes.data));
-        console.log('videoRes3::', videoRes);
+      
       } catch (error) {
         console.log('error::', error);
       }
     };
 
     fetchData();
-
+    
   }, [path, dispatch]);
 
   const handleLike = async () => {
@@ -70,7 +70,7 @@ export default function Video() {
   return (
     <Container>
       <Content>
-        {/* <VideoWrapper>
+        <VideoWrapper>
           <VideoFrame
             src={currentVideo.videoUrl}
             controls
@@ -125,7 +125,7 @@ export default function Video() {
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id} /> */}
+        <Comments videoId={currentVideo._id} />
       </Content>
       <Recommendation
         videoId={currentVideo._id}
