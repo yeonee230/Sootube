@@ -19,29 +19,29 @@ import { serverUrl } from '../utils/api';
 
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
-  // const { currentVideo } = useSelector((state) => state.video);
+  const { currentVideo } = useSelector((state) => state.video);
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
   console.log('path::', path);
   const [channel, setChannel] = useState({});
-  const [currentVideo,setVideo] = useState({})
+  // const [currentVideo,setVideo] = useState({})
 
   useEffect(() => {
     
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
-        console.log('videoRes1::', videoRes);
-        setVideo(videoRes.data)
-        console.log('video::', currentVideo);
+        // console.log('videoRes1::', videoRes);
+        // setVideo(videoRes.data)
+        // console.log('video::', currentVideo);
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
 
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
-      
+       
       } catch (error) {
         console.log('error::', error);
       }
@@ -49,7 +49,11 @@ export default function Video() {
 
     fetchData();
     
-  }, [path, dispatch,currentVideo]);
+  }, [path, dispatch]);
+
+  if (!currentVideo) {
+    return <div>Loading...</div>; 
+  }
 
   const handleLike = async () => {
     await axios.put(`${serverUrl}/users/like/${currentVideo._id}`);
