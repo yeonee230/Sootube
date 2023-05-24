@@ -25,6 +25,7 @@ export default function Video() {
   const path = useLocation().pathname.split('/')[2];
   console.log('path::', path);
   const [channel, setChannel] = useState({});
+  const [video,setVideo] = useState({})
 
   useEffect(() => {
     
@@ -32,7 +33,8 @@ export default function Video() {
       try {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
         console.log('videoRes1::', videoRes);
-
+        setVideo(videoRes.data)
+        console.log('video::', video);
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
@@ -47,7 +49,7 @@ export default function Video() {
 
     fetchData();
     
-  }, [path, dispatch]);
+  }, [path, dispatch,video]);
 
   const handleLike = async () => {
     await axios.put(`${serverUrl}/users/like/${currentVideo._id}`);
@@ -72,7 +74,7 @@ export default function Video() {
       <Content>
         <VideoWrapper>
           <VideoFrame
-            src={currentVideo.videoUrl}
+            src={video.videoUrl}
             controls
           />
         </VideoWrapper>
