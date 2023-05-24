@@ -10,8 +10,8 @@ import {
   sub,
   trend,
   updateVideo,
-} from '../../controllers/videoController';
-import { verifyToken } from '../../verifyToken';
+} from '../controllers/videoController';
+import { verifyToken } from '../verifyToken';
 
 const router = express.Router();
 
