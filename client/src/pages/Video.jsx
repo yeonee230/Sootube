@@ -32,12 +32,12 @@ export default function Video() {
       try {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
         console.log('videoRes1::', videoRes);
+
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
 
         setChannel(channelRes.data);
-       
         dispatch(fetchSuccess(videoRes.data));
       
       } catch (error) {
