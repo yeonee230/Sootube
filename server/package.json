@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",
-    "dev" : "nodemon --exec babel-node index.js"
+    "build": "babel src -d build",
+    "dev": "nodemon --exec babel-node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
@@ -20,6 +22,7 @@
     "nodemon": "^2.0.22"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.8",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.21.5"

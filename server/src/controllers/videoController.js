@@ -1,6 +1,6 @@
 import { createError } from '../error';
-import User from '../models/User';
-import Video from '../models/Video';
+import User from '../src/models/User';
+import Video from '../src/models/Video';
 
 export const addVideo = async (req, res, next) => {
   const newVideo = await Video({ userId: req.user.id, ...req.body });
@@ -108,13 +108,15 @@ export const sub = async (req, res, next) => {
 };
 
 export const getByTags = async (req, res, next) => {
-  const tags = req.query.tags.split(",")
+  const tags = req.query.tags.split(',');
   const videoId = req.query.videoId;
-  
+
   try {
-    const videos = await Video.find({tags:{$in:tags}}).limit(20);
-    // 중복 제거해야함. 자기자신 제거해야함. 
-    const filteredVideos = videos.filter(video => video._id.toString() !== videoId)
+    const videos = await Video.find({ tags: { $in: tags } }).limit(20);
+    // 중복 제거해야함. 자기자신 제거해야함.
+    const filteredVideos = videos.filter(
+      (video) => video._id.toString() !== videoId
+    );
     res.status(200).json(filteredVideos);
   } catch (error) {
     next(error);
@@ -122,12 +124,13 @@ export const getByTags = async (req, res, next) => {
 };
 
 export const search = async (req, res, next) => {
-  const query = req.query.q
+  const query = req.query.q;
 
   try {
-    const videos = await Video.find({title: { $regex: query, $options:"i"}}).limit(40)
+    const videos = await Video.find({
+      title: { $regex: query, $options: 'i' },
+    }).limit(40);
     res.status(200).json(videos);
-
   } catch (query) {
     next(error);
   }

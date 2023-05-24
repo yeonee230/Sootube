@@ -1,10 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userRouters from './routers/users';
-import videoRouters from './routers/videos';
-import commentRouters from './routers/comments';
-import authRouters from './routers/auth';
+import userRouters from './src/routers/users';
+import videoRouters from './src/routers/videos';
+import commentRouters from './src/routers/comments';
+import authRouters from './src/routers/auth';
 import cookieParser from 'cookie-parser';
 
 const app = express();

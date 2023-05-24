@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import User from '../models/User';
+import User from '../src/models/User';
 import bcrypt from 'bcryptjs';
 import { createError } from '../error';
 import jwt from 'jsonwebtoken';
@@ -34,7 +34,7 @@ export const signin = async (req, res, next) => {
 
     res
       .cookie('access_token', token, {
-        // maxAge: 1000*60*60*24*7, 
+        // maxAge: 1000*60*60*24*7,
         httpOnly: true,
       })
       .status(200)
@@ -62,8 +62,8 @@ export const googleAuth = async (req, res, next) => {
         ...req.body,
         fromGoogle: true,
       });
-      const savedUser = await newUser.save() //디비에 저장하고
-      //jwt 준다. 
+      const savedUser = await newUser.save(); //디비에 저장하고
+      //jwt 준다.
       const token = jwt.sign({ id: savedUser._id }, process.env.JWT);
       res
         .cookie('access_token', token, {
@@ -73,6 +73,6 @@ export const googleAuth = async (req, res, next) => {
         .json(savedUser._doc);
     }
   } catch (error) {
-    next(err)
+    next(err);
   }
 };

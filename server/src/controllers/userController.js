@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import User from '../models/User';
-import Video from '../models/Video';
+import User from '../src/models/User';
+import Video from '../src/models/Video';
 import { createError } from '../error';
 
 export const update = async (req, res, next) => {
