@@ -19,13 +19,13 @@ import { serverUrl } from '../utils/api';
 
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
-  const { currentVideo } = useSelector((state) => state.video);
+  // const { currentVideo } = useSelector((state) => state.video);
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
   console.log('path::', path);
   const [channel, setChannel] = useState({});
-  const [video,setVideo] = useState({})
+  const [currentVideo,setVideo] = useState({})
 
   useEffect(() => {
     
@@ -34,7 +34,7 @@ export default function Video() {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
         console.log('videoRes1::', videoRes);
         setVideo(videoRes.data)
-        console.log('video::', video);
+        console.log('video::', currentVideo);
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
@@ -49,7 +49,7 @@ export default function Video() {
 
     fetchData();
     
-  }, [path, dispatch,video]);
+  }, [path, dispatch,currentVideo]);
 
   const handleLike = async () => {
     await axios.put(`${serverUrl}/users/like/${currentVideo._id}`);
@@ -74,7 +74,7 @@ export default function Video() {
       <Content>
         <VideoWrapper>
           <VideoFrame
-            src={video.videoUrl}
+            src={currentVideo.videoUrl}
             controls
           />
         </VideoWrapper>
