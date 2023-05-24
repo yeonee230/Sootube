@@ -29,7 +29,7 @@ export default function SingUp() {
         </Link>
       </Wrapper>
       <More>
-        English(USA)
+        English(USA) {name},{email},{password}
         <Links>
           <LinkItem>Help</LinkItem>
           <LinkItem>Privacy</LinkItem>
