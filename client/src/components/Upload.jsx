@@ -10,6 +10,7 @@ import app from '../firebase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
+import { useSelector } from 'react-redux';
 
 export default function Upload({ setOpen }) {
   const [img, setImg] = useState(undefined);
@@ -19,6 +20,7 @@ export default function Upload({ setOpen }) {
   const [inputs, setInputs] = useState({});
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -78,8 +80,8 @@ export default function Upload({ setOpen }) {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    console.log('url',`${serverUrl}/videos`, { ...inputs, tags })
-    const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags });
+    console.log('url',`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id })
+    const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id });
     console.log('res',res)
     setOpen(false);
     res.status === 200 && navigate(`/videos/${res.data._id}`);
