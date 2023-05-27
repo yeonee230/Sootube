@@ -31,7 +31,7 @@ router.get('/trend', trend);
 //get random
 router.get('/random', random);
 //sub
-router.get('/sub', verifyToken, sub);
+router.get('/sub', sub);
 //tags
 router.get('/tags', getByTags);
 //search
