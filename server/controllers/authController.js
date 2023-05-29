@@ -33,7 +33,7 @@ export const signin = async (req, res, next) => {
     const { password, ...others } = user._doc;
 
     res
-      .cookie('access_token', token, {
+      .cookie('access_token', token, { //TODO:배포 시 cookie 관련 기능 동작 안함 
         // maxAge: 1000*60*60*24*7,
         httpOnly: true,
       })
