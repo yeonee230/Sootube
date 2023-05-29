@@ -5,8 +5,8 @@ export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   console.log("req.cookies. :: ",req.cookies)
   console.log("token :: ",token)
-  console.log("process.env.JWT :: ",process.env.JWT)
-  console.log("user :: ",user)
+  //console.log("process.env.JWT :: ",process.env.JWT)
+  //console.log("user :: ",user)
 
   if (!token) return next(createError(401, 'you are not authenticated!'));
 
