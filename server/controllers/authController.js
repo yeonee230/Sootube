@@ -35,13 +35,13 @@ export const signin = async (req, res, next) => {
     console.log('make token :: ',token)
     res
       .cookie('access_token', token, { //TODO:배포 시 cookie 관련 기능 동작 안함 
-        // maxAge: 1000*60*60*24*7,
+        maxAge: 1000*60*60*24*7,
         httpOnly: true,
       })
       .status(200)
       .json(others);
 
-      
+
   } catch (err) {
     next(err);
   }
