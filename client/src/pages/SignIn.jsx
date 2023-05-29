@@ -23,6 +23,7 @@ export default function SignIn() {
         name,
         password,
       });
+      console.log('login res :: ',res)
       dispatch(loginSuccess(res.data));
       navigate('/')
     } catch (error) {
