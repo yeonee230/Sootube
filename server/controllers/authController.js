@@ -32,6 +32,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT);
     const { password, ...others } = user._doc;
 
+    console.log('make token :: ',token)
     res
       .cookie('access_token', token, { //TODO:배포 시 cookie 관련 기능 동작 안함 
         // maxAge: 1000*60*60*24*7,
@@ -39,6 +40,8 @@ export const signin = async (req, res, next) => {
       })
       .status(200)
       .json(others);
+
+      
   } catch (err) {
     next(err);
   }
