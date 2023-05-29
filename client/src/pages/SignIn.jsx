@@ -30,6 +30,8 @@ export default function SignIn() {
       dispatch(loginFailure());
     }
   };
+
+  
   const signInWithGoogle = async () => {
     dispatch(loginStart())
     signInWithPopup(auth, provider)

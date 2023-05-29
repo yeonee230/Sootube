@@ -29,6 +29,7 @@ export default function Comment({ comment }) {
         </Name>
 
         <Text>{comment.desc}</Text>
+       
       </Details>
     </Container>
   );
@@ -65,3 +66,4 @@ const Date = styled.span`
 const Text = styled.span`
   font-size: 14px;
 `;
+

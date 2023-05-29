@@ -20,7 +20,7 @@ export default function SignUp() {
         password,
       }).then((res) => {
         navigate('/')
-      });;
+      });
       console.log( res.data)
     } catch (error) {
       console.log( error)

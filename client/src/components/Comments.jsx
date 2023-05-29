@@ -23,12 +23,25 @@ export default function Comments({ videoId }) {
     fetchComments();
   }, [videoId]);
 
+  const handleComment = async () =>{
+    
+      try {
+        await axios.post(`${serverUrl}/comments/${videoId}`,{ currentUser }).then(
+         console.log('add comment')
+        ); //userId, videoId 넘겨야함
+        //setComments(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    
+  }
+
   return (
     <Container>
       <NewComment>
         <Avatar src={currentUser?.img} />
         <Input placeholder='Add a comment...' /> 
-        {/* TODO:comment 추가하는 기능 만들어야함. */}
+        <Button onClick={handleComment}>Comment</Button>
       </NewComment>
       {comments.map((comment) => (
         <Comment
@@ -59,4 +72,16 @@ const Input = styled.input`
   outline: none;
   padding: 5px;
   width: 100%;
+`;
+
+const Button = styled.button`
+  background-color: black;
+  font-weight: 500;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  height: max-content;
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
 `;
