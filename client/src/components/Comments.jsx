@@ -26,7 +26,7 @@ export default function Comments({ videoId }) {
   const handleComment = async () =>{
     
       try {
-        await axios.post(`${serverUrl}/comments/${videoId}`,{ currentUser }).then(
+        await axios.post(`${serverUrl}/comments/${videoId}`,{ user: currentUser }).then(
          console.log('add comment')
         ); //userId, videoId 넘겨야함
         //setComments(res.data);
