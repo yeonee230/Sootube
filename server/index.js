@@ -11,7 +11,7 @@ import cors from 'cors'
 const app = express();
 const PORT = 8800;
 dotenv.config();
-app.use(cors({ credentials: true, origin: 'https://sootube.netlify.app' }))
+app.use(cors())
 
 const connect = () => {
   mongoose.set('strictQuery', true);
