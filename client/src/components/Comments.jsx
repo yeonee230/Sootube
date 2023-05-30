@@ -28,7 +28,7 @@ export default function Comments({ videoId }) {
       try {
         await axios.post(`${serverUrl}/comments`,{videoId, user: currentUser }).then(
          console.log('add comment')
-        ); //userId, videoId 넘겨야함
+        ); //userId, videoId 넘겨야함 des 도!! 
         //setComments(res.data);
       } catch (error) {
         console.log(error);
