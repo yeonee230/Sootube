@@ -10,7 +10,7 @@ import cors from 'cors'
 
 const app = express();
 const PORT = 8800;
-dotenv.config();
+dotenv.config(); // dotenv환경 변수를 로드하는 데 사용
 app.use(cors())
 
 const connect = () => {
@@ -26,6 +26,7 @@ const connect = () => {
 };
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth', authRouters);
 app.use('/api/users', userRouters);

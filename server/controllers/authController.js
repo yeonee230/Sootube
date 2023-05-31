@@ -4,42 +4,61 @@ import bcrypt from 'bcryptjs';
 import { createError } from '../error';
 import jwt from 'jsonwebtoken';
 
+// @desc    Register a new user
+// @route   POST /api/auth/signup
+// @access  Public
 export const signup = async (req, res, next) => {
-  const { password } = req.body;
+  const { email, password } = req.body;
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error('The email already exists');
+  }
 
   try {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
-    const newUser = new User({ ...req.body, password: hash });
-
-    await newUser.save();
-    res.status(200).send('success : user create');
+    await User.create({email, password})
+    return res.status(200).send('success : user create');
   } catch (err) {
     next(err);
   }
 };
 
+// @desc    Auth user & get token
+// @route   POST /api/auth/signin
+// @access  Public
 export const signin = async (req, res, next) => {
-  const { name, password: dbPw } = req.body;
+  const { email, password: dbPw } = req.body;
   try {
     //find user
-    const user = await User.findOne({ name });
+    const user = await User.findOne({ email });
     if (!user) return next(createError(404, 'User Not Found !'));
 
     //match pw
     const isCorrect = await bcrypt.compare(dbPw, user.password);
     if (!isCorrect) return next(createError(400, 'Wrong Credentials! '));
-    const token = jwt.sign({ id: user._id }, process.env.JWT);
+    
+    
+    // const token = jwt.sign({ id: user._id }, process.env.JWT);
+    
     const { password, ...others } = user._doc;
 
     console.log('make token :: ',token)
-    res
-      .cookie('access_token', token, { //TODO:배포 시 cookie 관련 기능 동작 안함 
-        maxAge: 1000*60*60*24*7,
-        httpOnly: true,
-      })
-      .status(200)
-      .json(others);
+
+    //make JWT token 
+    generateToken(res, user._id);
+
+    res.status(200).json(others);
+
+
+    // res
+    //   .cookie('access_token', token, { 
+    //     maxAge: 1000*60*60*24*7,
+    //     httpOnly: true,
+    //   })
+    //   .status(200)
+    //   .json(others);
 
 
   } catch (err) {
@@ -79,3 +98,17 @@ export const googleAuth = async (req, res, next) => {
     next(err);
   }
 };
+
+// @desc     Logout user / clear cookie
+// @route   POST /api/users/logout
+// @access  Public
+export const logout = async (req, res, next) => {
+
+  res.cookie('access_token', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: 'Logged out successfully' });
+
+}
