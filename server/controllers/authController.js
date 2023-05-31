@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import User from '../models/User';
 import bcrypt from 'bcryptjs';
-import { createError } from '../error';
+import { createError } from '../util/error';
 import jwt from 'jsonwebtoken';
+import generateToken from '../util/generateToken.js';
 
 // @desc    Register a new user
 // @route   POST /api/auth/signup
@@ -18,7 +19,7 @@ export const signup = async (req, res, next) => {
   }
 
   try {
-    await User.create({email, password})
+    await User.create({ email, password });
     return res.status(200).send('success : user create');
   } catch (err) {
     next(err);
@@ -38,29 +39,26 @@ export const signin = async (req, res, next) => {
     //match pw
     const isCorrect = await bcrypt.compare(dbPw, user.password);
     if (!isCorrect) return next(createError(400, 'Wrong Credentials! '));
-    
-    
+
     // const token = jwt.sign({ id: user._id }, process.env.JWT);
-    
+
     const { password, ...others } = user._doc;
 
-    console.log('make token :: ',token)
+    console.log('make token :: ', token);
 
-    //make JWT token 
+    //make JWT token
+    generateToken();
     generateToken(res, user._id);
 
     res.status(200).json(others);
 
-
     // res
-    //   .cookie('access_token', token, { 
+    //   .cookie('access_token', token, {
     //     maxAge: 1000*60*60*24*7,
     //     httpOnly: true,
     //   })
     //   .status(200)
     //   .json(others);
-
-
   } catch (err) {
     next(err);
   }
@@ -103,12 +101,10 @@ export const googleAuth = async (req, res, next) => {
 // @route   POST /api/users/logout
 // @access  Public
 export const logout = async (req, res, next) => {
-
   res.cookie('access_token', '', {
     httpOnly: true,
     expires: new Date(0),
   });
 
   res.status(200).json({ message: 'Logged out successfully' });
-
-}
+};

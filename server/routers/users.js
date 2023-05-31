@@ -8,7 +8,7 @@ import {
   like,
   dislike,
 } from '../controllers/userController';
-import { verifyToken } from '../verifyToken';
+import { verifyToken } from '../util/verifyToken';
 
 const router = express.Router();
 
@@ -26,6 +26,5 @@ router.put('/unsub/:id', verifyToken, unsubscribe);
 router.put('/like/:videoId', verifyToken, like);
 //dislike a video
 router.put('/dislike/:videoId', verifyToken, dislike);
-
 
 export default router;

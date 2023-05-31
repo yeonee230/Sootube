@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../models/User';
 import Video from '../models/Video';
-import { createError } from '../error';
+import { createError } from '../util/error';
 
 export const update = async (req, res, next) => {
   if (req.params.id === req.user.id) {
@@ -99,6 +99,3 @@ export const dislike = async (req, res, next) => {
     next(error);
   }
 };
-
-
-
