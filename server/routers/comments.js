@@ -4,7 +4,7 @@ import {
   deleteComment,
   getComment,
 } from '../controllers/commentController';
-import { verifyToken } from '../util/verifyToken';
+import { verifyToken } from '../verifyToken';
 
 const router = express.Router();
 
