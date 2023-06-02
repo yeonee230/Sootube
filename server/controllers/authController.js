@@ -9,7 +9,7 @@ import generateToken from '../util/generateToken.js';
 // @route   POST /api/auth/signup
 // @access  Public
 export const signup = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -19,7 +19,7 @@ export const signup = async (req, res, next) => {
   }
 
   try {
-    await User.create({ email, password });
+    await User.create({ email, password, name });
     return res.status(200).send('success : user create');
   } catch (err) {
     next(err);
