@@ -5,6 +5,7 @@ const generateToken = (res, id) => {
     expiresIn: '30d',
   });
 
+  console.log('make token :: ', token);
   res.cookie('access_token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production

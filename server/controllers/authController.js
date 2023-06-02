@@ -44,11 +44,9 @@ export const signin = async (req, res, next) => {
 
     const { password, ...others } = user._doc;
 
-    console.log('make token :: ', token);
-
     //make JWT token
     generateToken(res, user._id);
-
+    
     res.status(200).json(others);
 
     // res
