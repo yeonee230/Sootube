@@ -9,8 +9,8 @@ import { useNavigate,Link } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
 
 export default function SignIn() {
-  const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
+  // const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -20,10 +20,11 @@ export default function SignIn() {
     dispatch(loginStart());
     try {
       const res = await axios.post(`${serverUrl}/auth/signin`, {
-        name,
+        email,
         password,
       });
       console.log('login res :: ',res)
+      
       dispatch(loginSuccess(res.data));
       navigate('/')
     } catch (error) {
@@ -57,12 +58,12 @@ export default function SignIn() {
         <Title>Sign in</Title>
         <SubTitle>to continue to Sootube</SubTitle>
         <Input
-          placeholder='username'
-          onChange={(e) => setName(e.target.value)}
+          placeholder='Email'
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           type='password'
-          placeholder='password'
+          placeholder='Password'
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleLogin}>Sign In</Button>
