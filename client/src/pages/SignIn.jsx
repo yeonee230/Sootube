@@ -7,7 +7,6 @@ import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
-import { setCookie } from '../utils/cookie';
 
 export default function SignIn() {
   // const [name, setName] = useState('');
@@ -20,17 +19,16 @@ export default function SignIn() {
     e.preventDefault();
     dispatch(loginStart());
     try {
+      const jwtToken = document.cookie.split('; ').find(row => row.startsWith('access_token=')).split('=')[1];
+      console.log('jwtToken :: ', jwtToken);
       const res = await axios.post(`${serverUrl}/auth/signin`, {
         email,
         password,
+        headers: {
+          Authorization: `Bearer ${jwtToken}` // Authorization 헤더에 토큰을 포함시킵니다.
+        }
       });
       console.log('login res :: ', res);
-
-      //reponse에서 토큰값을 꺼낸다.
-      const accessToken = res.data.access_token;
-      //setcookie함수의 첫번째 인자는 쿠키이름, 두번째 인자는 넣을 값이다.
-      setCookie('is_login', `${accessToken}`);
-      console.log(accessToken);
 
       dispatch(loginSuccess(res.data));
       navigate('/');
