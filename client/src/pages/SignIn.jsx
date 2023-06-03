@@ -5,15 +5,16 @@ import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
+import { setCookie } from '../utils/cookie';
 
 export default function SignIn() {
   // const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,18 +24,23 @@ export default function SignIn() {
         email,
         password,
       });
-      console.log('login res :: ',res)
-      
+      console.log('login res :: ', res);
+
+      //reponse에서 토큰값을 꺼낸다.
+      const accessToken = res.data.access_token;
+      //setcookie함수의 첫번째 인자는 쿠키이름, 두번째 인자는 넣을 값이다.
+      setCookie('is_login', `${accessToken}`);
+      console.log(accessToken);
+
       dispatch(loginSuccess(res.data));
-      navigate('/')
+      navigate('/');
     } catch (error) {
       dispatch(loginFailure());
     }
   };
 
-  
   const signInWithGoogle = async () => {
-    dispatch(loginStart())
+    dispatch(loginStart());
     signInWithPopup(auth, provider)
       .then((result) => {
         axios
@@ -45,11 +51,11 @@ export default function SignIn() {
           })
           .then((res) => {
             dispatch(loginSuccess(res.data));
-            navigate('/')
+            navigate('/');
           });
       })
       .catch((error) => {
-        dispatch(loginFailure())
+        dispatch(loginFailure());
       });
   };
   return (
@@ -69,9 +75,9 @@ export default function SignIn() {
         <Button onClick={handleLogin}>Sign In</Button>
         <Title>OR</Title>
         <Button onClick={signInWithGoogle}>Sign in with Google </Button>
-        
+
         <Link to='/signup'>
-        <GotoLink>Create account</GotoLink>
+          <GotoLink>Create account</GotoLink>
         </Link>
       </Wrapper>
       <More>
@@ -86,7 +92,6 @@ export default function SignIn() {
   );
 }
 
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -94,7 +99,6 @@ const Container = styled.div`
   height: calc(100vh - 56px);
   color: ${({ theme }) => theme.text};
   flex-direction: column;
-  
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -127,10 +131,10 @@ const Button = styled.button`
   padding: 10px 20px;
   font-weight: 300;
   cursor: pointer;
-  background-color: #1464d5;;
+  background-color: #1464d5;
   color: white;
   &:hover {
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     background-color: #3ea6ff;
   }
 `;
@@ -149,6 +153,6 @@ const LinkItem = styled.span`
 `;
 
 const GotoLink = styled.span`
-    color: #1464d5;
-    font-size: 12px;
-`
+  color: #1464d5;
+  font-size: 12px;
+`;
