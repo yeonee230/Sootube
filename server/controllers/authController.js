@@ -47,7 +47,7 @@ export const signin = async (req, res, next) => {
 
     if (!isCorrect) return next(createError(400, "비밀번호가 일치하지 않습니다."));
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     const { password, ...others } = user._doc;
 
@@ -77,7 +77,7 @@ export const signin2 = async (req, res, next) => {
     const isCorrect = await bcrypt.compare(dbPw, user.password);
     if (!isCorrect) return next(createError(400, 'Wrong Credentials! '));
 
-    // const token = jwt.sign({ id: user._id }, process.env.JWT);
+    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     const { password, ...others } = user._doc;
 
