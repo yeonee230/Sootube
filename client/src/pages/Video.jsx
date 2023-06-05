@@ -20,6 +20,8 @@ import { serverUrl } from '../utils/api';
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
+  const {token} = useSelector((state => state.token))
+  // const { token, user } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
@@ -56,7 +58,11 @@ export default function Video() {
   }
 
   const handleLike = async () => {
-    await axios.put(`${serverUrl}/users/like/${currentVideo._id}`);
+    await axios.put(`${serverUrl}/users/like/${currentVideo._id}`,{
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
     dispatch(like(currentUser._id));
   };
 
