@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
+import { loginFailure, loginStart, loginSuccess, setToken } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
@@ -21,6 +21,7 @@ export default function SignIn() {
     try {
       const res = await axios.post(`${serverUrl}/auth/signin`, { email, password });
       dispatch(loginSuccess(res.data));
+      dispatch(setToken(res.data.token));
       navigate("/")
     } catch (err) {
       dispatch(loginFailure());
