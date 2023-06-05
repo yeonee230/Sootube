@@ -16,7 +16,7 @@ import { verifyToken } from '../util/verifyToken';
 const router = express.Router();
 
 //create video
-router.post('/', addVideo);
+router.post('/', verifyToken, addVideo);
 //update video
 router.put('/:id', verifyToken, updateVideo);
 //delete video
@@ -31,7 +31,7 @@ router.get('/trend', trend);
 //get random
 router.get('/random', random);
 //sub
-router.get('/sub', sub);
+router.get('/sub',verifyToken, sub);
 //tags
 router.get('/tags', getByTags);
 //search
