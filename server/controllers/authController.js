@@ -21,10 +21,11 @@ export const signup = async (req, res, next) => {
 
   try {
 
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
-    const newUser = new User({ ...req.body, password: hash });
+    // const salt = bcrypt.genSaltSync(10);
+    // const hash = bcrypt.hashSync(req.body.password, salt);
+    // const newUser = new User({ ...req.body, password: hash });
 
+    const newUser = new User({ ...req.body });
     await newUser.save();
     res.status(200).send("User has been created!");
 
@@ -40,13 +41,14 @@ export const signin = async (req, res, next) => {
     const { email, password: dbPw } = req.body;
    
     const user = await User.findOne({ email});
-    if (!user) return next(createError(404, "User not found!"));
+    if (!user) return next(createError(404, "email이 존재하지 않습니다. "));
 
     const isCorrect = await bcrypt.compare(dbPw, user.password);
 
-    if (!isCorrect) return next(createError(400, "Wrong Credentials!"));
+    if (!isCorrect) return next(createError(400, "비밀번호가 일치하지 않습니다."));
 
     const token = jwt.sign({ id: user._id }, process.env.JWT);
+
     const { password, ...others } = user._doc;
 
     res
