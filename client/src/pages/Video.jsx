@@ -58,7 +58,7 @@ export default function Video() {
   }
 
   const handleLike = async () => {
-    await axios.put(`${serverUrl}/users/like/${currentVideo._id}`,{
+    await axios.put(`${serverUrl}/users/like/${currentVideo._id}`, null, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
