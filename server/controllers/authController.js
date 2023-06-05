@@ -37,10 +37,12 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
   try {
     console.log('email 확인 : ',req.body)
-    const user = await User.findOne({ email : req.body.email });
+    const { email, password: dbPw } = req.body;
+   
+    const user = await User.findOne({ email});
     if (!user) return next(createError(404, "User not found!"));
 
-    const isCorrect = await bcrypt.compare(req.body.password, user.password);
+    const isCorrect = await bcrypt.compare(dbPw, user.password);
 
     if (!isCorrect) return next(createError(400, "Wrong Credentials!"));
 
