@@ -19,23 +19,35 @@ export default function SignIn() {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const jwtToken = document.cookie.split('; ').find(row => row.startsWith('access_token=')).split('=')[1];
-      console.log('jwtToken :: ', jwtToken);
-      const res = await axios.post(`${serverUrl}/auth/signin`, {
-        email,
-        password,
-        headers: {
-          Authorization: `Bearer ${jwtToken}` // Authorization 헤더에 토큰을 포함시킵니다.
-        }
-      });
-      console.log('login res :: ', res);
-
+      const res = await axios.post("/auth/signin", { email, password });
       dispatch(loginSuccess(res.data));
-      navigate('/');
-    } catch (error) {
+      navigate("/")
+    } catch (err) {
       dispatch(loginFailure());
     }
   };
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   dispatch(loginStart());
+  //   try {
+  //     const jwtToken = document.cookie.split('; ').find(row => row.startsWith('access_token=')).split('=')[1];
+  //     console.log('jwtToken :: ', jwtToken);
+  //     const res = await axios.post(`${serverUrl}/auth/signin`, {
+  //       email,
+  //       password,
+  //       headers: {
+  //         Authorization: `Bearer ${jwtToken}` // Authorization 헤더에 토큰을 포함시킵니다.
+  //       }
+  //     });
+  //     console.log('login res :: ', res);
+
+  //     dispatch(loginSuccess(res.data));
+  //     navigate('/');
+  //   } catch (error) {
+  //     dispatch(loginFailure());
+  //   }
+  // };
 
   const signInWithGoogle = async () => {
     dispatch(loginStart());
