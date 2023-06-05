@@ -56,7 +56,7 @@ export const signin = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json(others, token );
+      .json(others);
   } catch (err) {
     next(err);
   }
