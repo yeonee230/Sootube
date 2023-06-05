@@ -16,11 +16,12 @@ import { format } from 'timeago.js';
 import { subscription } from '../redux/userSlice';
 import Recommendation from '../components/Recommendation';
 import { serverUrl } from '../utils/api';
+import { getCookie } from '../utils/cookie';
 
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
-  const {token} = useSelector((state => state.user))
+  // const {token} = useSelector((state => state.user))
   // const { token, user } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export default function Video() {
   console.log('path::', path);
   const [channel, setChannel] = useState({});
   // const [currentVideo,setVideo] = useState({})
+
+  const jwtCookie = getCookie('access_token')
 
   useEffect(() => {
     
@@ -60,7 +63,7 @@ export default function Video() {
   const handleLike = async () => {
     await axios.put(`${serverUrl}/users/like/${currentVideo._id}`, null, {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${jwtCookie}`
       }
     });
     dispatch(like(currentUser._id));
