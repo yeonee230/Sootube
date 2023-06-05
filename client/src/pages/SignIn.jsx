@@ -13,6 +13,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
 import { getCookie, setCookie } from '../utils/cookie';
+import { useCookies } from 'react-cookie';
 
 export default function SignIn() {
   // const [name, setName] = useState('');
@@ -20,6 +21,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cookies] = useCookies();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,7 +32,12 @@ export default function SignIn() {
         password,
       });
       console.log('res :', res);
+      console.log('cookies :', cookies);
+      console.log('res.cookie :', res.cookie);
+      console.log('res.data.access_token :', res.data.access_token);
+      
       const {access_token} = res;
+
       setCookie('access_token',access_token)
       const jwtCookie = getCookie('access_token')
       console.log('jwtCookie :', jwtCookie);
