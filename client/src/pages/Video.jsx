@@ -20,7 +20,7 @@ import { serverUrl } from '../utils/api';
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
-  const {token} = useSelector((state => state.token))
+  const {token} = useSelector((state => state.user))
   // const { token, user } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch();
