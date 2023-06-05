@@ -12,6 +12,7 @@ import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
+import { getCookie, setCookie } from '../utils/cookie';
 
 export default function SignIn() {
   // const [name, setName] = useState('');
@@ -28,9 +29,12 @@ export default function SignIn() {
         email,
         password,
       });
-      console.log('data:', res.data);
+      console.log('res :', res);
+      const {access_token} = res;
+      setCookie('access_token',access_token)
       dispatch(loginSuccess(res.data));
-      dispatch(setToken(res.data.token));
+
+      dispatch(setToken(res.access_token));
       navigate('/');
     } catch (err) {
       dispatch(loginFailure());

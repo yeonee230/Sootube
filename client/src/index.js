@@ -15,7 +15,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Search from './pages/Search';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-
+import {CookiesProvider} from 'react-cookie';
 
 
 const router = createBrowserRouter([
@@ -45,7 +45,9 @@ root.render(
 
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
+    <CookiesProvider>
     <RouterProvider router={router} />
+    </CookiesProvider>
     </PersistGate>
     </Provider>
 
