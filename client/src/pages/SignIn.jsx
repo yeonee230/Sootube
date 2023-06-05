@@ -12,7 +12,7 @@ import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
-import { getCookie, setCookie } from '../utils/cookie';
+import { setCookie } from '../utils/cookie';
 
 export default function SignIn() {
   // const [name, setName] = useState('');
