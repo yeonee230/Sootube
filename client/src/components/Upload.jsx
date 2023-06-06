@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { serverUrl } from '../utils/api';
 import { useSelector } from 'react-redux';
+import { getCookie } from '../utils/cookie';
 
 export default function Upload({ setOpen }) {
   const [img, setImg] = useState(undefined);
@@ -21,6 +22,7 @@ export default function Upload({ setOpen }) {
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
+  const jwtCookie = getCookie('access_token');
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -80,13 +82,12 @@ export default function Upload({ setOpen }) {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    // console.log('url',`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id })
-    const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags,userId:currentUser._id });
-    console.log('res',res)
+    const res = await axios.post(`${serverUrl}/videos`, { ...inputs, tags, userId:currentUser._id },{
+      headers: {
+        "Authorization": `Bearer ${jwtCookie}`
+      }
+    });
 
-    //test
-    // const res = await axios.post(`http://localhost:8800/api/videos`, { ...inputs, tags, userId:currentUser._id });
-    // console.log('res',res)
     setOpen(false);
     res.status === 200 && navigate(`/videos/${res.data._id}`);
   };
