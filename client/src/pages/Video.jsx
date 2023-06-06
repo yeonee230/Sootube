@@ -26,20 +26,17 @@ export default function Video() {
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
-  console.log('path::', path);
+
   const [channel, setChannel] = useState({});
   // const [currentVideo,setVideo] = useState({})
 
   const jwtCookie = getCookie('access_token')
-  console.log('jwtCookie in video.jsx :', jwtCookie);
+
   useEffect(() => {
     
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`${serverUrl}/videos/find/${path}`);
-        // console.log('videoRes1::', videoRes);
-        // setVideo(videoRes.data)
-        // console.log('video::', currentVideo);
         const channelRes = await axios.get(
           `${serverUrl}/users/find/${videoRes.data.userId}`
         );
@@ -70,14 +67,26 @@ export default function Video() {
   };
 
   const handleDislike = async () => {
-    await axios.put(`${serverUrl}/users/dislike/${currentVideo._id}`);
+    await axios.put(`${serverUrl}/users/dislike/${currentVideo._id}`,null,{
+      headers: {
+        "Authorization": `Bearer ${jwtCookie}`
+      }
+    });
     dispatch(dislike(currentUser._id));
   };
 
   const handleSubscribe = async () => {
     currentUser.subscribedUsers.includes(channel._id)
-      ? await axios.put(`${serverUrl}/users/unsub/${channel._id}`)
-      : await axios.put(`${serverUrl}/users/sub/${channel._id}`);
+      ? await axios.put(`${serverUrl}/users/unsub/${channel._id}`,null,{
+        headers: {
+          "Authorization": `Bearer ${jwtCookie}`
+        }
+      })
+      : await axios.put(`${serverUrl}/users/sub/${channel._id}`,null,{
+        headers: {
+          "Authorization": `Bearer ${jwtCookie}`
+        }
+      });
 
     dispatch(subscription(channel._id));
   };
