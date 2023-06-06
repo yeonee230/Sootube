@@ -13,6 +13,11 @@ import { createError } from "./error.js";
 // };
 
 export const verifyToken = (req, res, next) => {
+
+  console.log('req headers in verifyToken',req.headers);
+  
+  console.log('token in verifyToken : ',req.headers.authorization );
+  
   if(!req.headers.authorization) return res.status(403).json({msg: "Not authorized. No token"})
 
   if(req.headers.authorization && req.headers.authorization.startsWith("Bearer ")){
