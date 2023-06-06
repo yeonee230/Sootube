@@ -31,7 +31,7 @@ export default function Video() {
   // const [currentVideo,setVideo] = useState({})
 
   const jwtCookie = getCookie('access_token')
-
+  console.log('jwtCookie in video.jsx :', jwtCookie);
   useEffect(() => {
     
     const fetchData = async () => {
