@@ -142,7 +142,9 @@ export default function Video() {
               <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={handleSubscribe}>
+          <Subscribe onClick={handleSubscribe}
+            subscribed={currentUser?.subscribedUsers?.includes(channel._id)}
+          >
             {currentUser?.subscribedUsers?.includes(channel._id)
               ? 'Subscribed'
               : 'Subscribe'}
@@ -244,4 +246,11 @@ const Subscribe = styled.button`
   height: max-content;
   padding: 10px 20px;
   cursor: pointer;
+
+  ${props =>
+    props.subscribed &&
+   `
+    background-color: #484848;
+    opacity: 0.7;
+  `}
 `;
