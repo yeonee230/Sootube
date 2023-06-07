@@ -31,7 +31,8 @@ export default function Upload({ setOpen }) {
   };
 
   const handleTags = (e) => {
-    setTags(e.target.value.split(','));
+    const tags = e.target.value.split(',').map((tag) => tag.trim());
+    setTags(tags);
   };
 
   const uploadFile = (file, urlType) => {
