@@ -42,7 +42,7 @@ export default function Comments({ videoId }) {
           }}).then(
          console.log('add comment')
         ); 
-        setComments(res.data);
+        setComments((prev) => [...prev, res.data]);
         res.status === 200 && navigate(`/videos/${videoId}`);
       } catch (error) {
         console.log(error);
