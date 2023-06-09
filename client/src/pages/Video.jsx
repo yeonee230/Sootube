@@ -107,7 +107,7 @@ export default function Video() {
     }
   
     dispatch(subscription(channel._id));
-    
+
     // currentUser.subscribedUsers.includes(channel._id)
     //   ? await axios.put(`${serverUrl}/users/unsub/${channel._id}`,null,{
     //     headers: {
@@ -170,7 +170,7 @@ export default function Video() {
             <Image src={channel.img} />
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{(prev) => channel.subscribers} subscribers</ChannelCounter>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
               <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
