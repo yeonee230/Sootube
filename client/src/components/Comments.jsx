@@ -71,7 +71,8 @@ const Container = styled.div``;
 const NewComment = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 5px;
 `;
 const Avatar = styled.img`
   width: 50px;
@@ -85,7 +86,7 @@ const Input = styled.input`
   background-color: transparent;
   outline: none;
   padding: 5px;
-  width: 100%;
+  width: 80%;
 `;
 
 const Button = styled.button`
