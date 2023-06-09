@@ -14,7 +14,7 @@ export default function Comments({ videoId }) {
   const { currentUser } = useSelector((state) => state.user);
   const jwtCookie = getCookie('access_token');
   const navigate = useNavigate();
-  const [input, setInput] = useState({});//comment 달기 
+  const [input, setInput] = useState('');//comment 달기 
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -30,9 +30,7 @@ export default function Comments({ videoId }) {
   }, [videoId]);
 
   const handleChange = (e) =>{
-    setInput(prev =>{
-      return {...prev, desc : e.target.value }
-    })
+    setInput( () => e.target.value )
   }
 
   const handleComment = async (e) =>{
