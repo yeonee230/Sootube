@@ -4,7 +4,6 @@ import Video from '../models/Video';
 
 export const addComment = async (req, res, next) => {
   console.log('comment::', req.body);
-  //console.log('comment user::', req.user)
   const newComment = new Comment({ ...req.body, userId: req.body.user._id });
   try {
     const savedComment = await newComment.save();
