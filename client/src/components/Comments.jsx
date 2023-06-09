@@ -7,12 +7,14 @@ import { serverUrl } from '../utils/api';
 import { getCookie } from '../utils/cookie';
 import Comment from './Comment';
 
+//코멘트 달기 
 export default function Comments({ videoId }) {
   //1. useState -> useEffect
   const [comments, setComments] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
   const jwtCookie = getCookie('access_token');
   const navigate = useNavigate();
+  const [input, setInput] = useState({});//comment 달기 
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -28,7 +30,7 @@ export default function Comments({ videoId }) {
   }, [videoId]);
 
   const handleChange = (e) =>{
-    setComments(prev =>{
+    setInput(prev =>{
       return {...prev, desc : e.target.value }
     })
   }
@@ -36,7 +38,7 @@ export default function Comments({ videoId }) {
   const handleComment = async (e) =>{
     e.preventDefault();
       try {
-        const res = await axios.post(`${serverUrl}/comments`,{videoId, user: currentUser, comments },{
+        const res = await axios.post(`${serverUrl}/comments`,{videoId, user: currentUser, desc : input },{
           headers: {
             "Authorization": `Bearer ${jwtCookie}`
           }}).then(

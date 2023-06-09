@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { format } from 'timeago.js';
 import { serverUrl } from '../utils/api';
 
+// 해당 비디오의 코멘트 보여주기 
 export default function Comment({ comment }) {
   const [channel, setChannel] = useState({});
 
