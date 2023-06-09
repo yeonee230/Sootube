@@ -76,19 +76,51 @@ export default function Video() {
   };
 
   const handleSubscribe = async () => {
-    currentUser.subscribedUsers.includes(channel._id)
-      ? await axios.put(`${serverUrl}/users/unsub/${channel._id}`,null,{
-        headers: {
-          "Authorization": `Bearer ${jwtCookie}`
+    if (currentUser.subscribedUsers.includes(channel._id)) {
+      await axios.put(
+        `${serverUrl}/users/unsub/${channel._id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtCookie}`,
+          },
         }
-      })
-      : await axios.put(`${serverUrl}/users/sub/${channel._id}`,null,{
-        headers: {
-          "Authorization": `Bearer ${jwtCookie}`
+      );
+      setChannel((prevChannel) => ({
+        ...prevChannel,
+        subscribers: prevChannel.subscribers - 1,
+      }));
+    } else {
+      await axios.put(
+        `${serverUrl}/users/sub/${channel._id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtCookie}`,
+          },
         }
-      });
-
+      );
+      setChannel((prevChannel) => ({
+        ...prevChannel,
+        subscribers: prevChannel.subscribers + 1,
+      }));
+    }
+  
     dispatch(subscription(channel._id));
+    
+    // currentUser.subscribedUsers.includes(channel._id)
+    //   ? await axios.put(`${serverUrl}/users/unsub/${channel._id}`,null,{
+    //     headers: {
+    //       "Authorization": `Bearer ${jwtCookie}`
+    //     }
+    //   })
+    //   : await axios.put(`${serverUrl}/users/sub/${channel._id}`,null,{
+    //     headers: {
+    //       "Authorization": `Bearer ${jwtCookie}`
+    //     }
+    //   });
+
+    // dispatch(subscription(channel._id));
   };
 
   return (
@@ -138,7 +170,7 @@ export default function Video() {
             <Image src={channel.img} />
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
+              <ChannelCounter>{(prev) => channel.subscribers} subscribers</ChannelCounter>
               <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
