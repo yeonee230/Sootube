@@ -1,14 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { serverUrl } from '../utils/api';
+import { getCookie } from '../utils/cookie';
 import Comment from './Comment';
 
 export default function Comments({ videoId }) {
   //1. useState -> useEffect
   const [comments, setComments] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
+  const jwtCookie = getCookie('access_token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -23,13 +27,23 @@ export default function Comments({ videoId }) {
     fetchComments();
   }, [videoId]);
 
-  const handleComment = async () =>{
-    
+  const handleChange = (e) =>{
+    setComments(prev =>{
+      return {...prev, desc : e.target.value }
+    })
+  }
+
+  const handleComment = async (e) =>{
+    e.preventDefault();
       try {
-        await axios.post(`${serverUrl}/comments`,{videoId, user: currentUser }).then(
+        const res = await axios.post(`${serverUrl}/comments`,{videoId, user: currentUser, comments },{
+          headers: {
+            "Authorization": `Bearer ${jwtCookie}`
+          }}).then(
          console.log('add comment')
-        ); //userId, videoId 넘겨야함 des 도!! 
-        //setComments(res.data);
+        ); 
+        setComments(res.data);
+        res.status === 200 && navigate(`/videos/${videoId}`);
       } catch (error) {
         console.log(error);
       }
@@ -40,7 +54,7 @@ export default function Comments({ videoId }) {
     <Container>
       <NewComment>
         <Avatar src={currentUser?.img} />
-        <Input placeholder='Add a comment...' /> 
+        <Input placeholder='Add a comment...' onChange={handleChange}/> 
         <Button onClick={handleComment}>Comment</Button>
       </NewComment>
       {comments.map((comment) => (
