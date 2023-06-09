@@ -21,8 +21,6 @@ import { getCookie } from '../utils/cookie';
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
-  // const {token} = useSelector((state => state.user))
-  // const { token, user } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch();
   const path = useLocation().pathname.split('/')[2];
@@ -63,8 +61,23 @@ export default function Video() {
         "Authorization": `Bearer ${jwtCookie}`
       }
     });
-    dispatch(like(currentUser._id));
+    //dispatch(like(currentUser._id));
+
+    if (currentVideo.likes?.includes(currentUser?._id)) {
+      dispatch(dislike(currentUser._id));
+    } else {
+      dispatch(like(currentUser._id));
+    }
+  
+    setChannel((prevChannel) => ({
+      ...prevChannel,
+      likes: currentVideo.likes?.includes(currentUser?._id)
+        ? prevChannel.likes.filter((userId) => userId !== currentUser._id)
+        : [...prevChannel.likes, currentUser._id],
+    }));
   };
+
+  
 
   const handleDislike = async () => {
     await axios.put(`${serverUrl}/users/dislike/${currentVideo._id}`,null,{
@@ -72,7 +85,20 @@ export default function Video() {
         "Authorization": `Bearer ${jwtCookie}`
       }
     });
-    dispatch(dislike(currentUser._id));
+
+    if (currentVideo.likes?.includes(currentUser?._id)) {
+      dispatch(dislike(currentUser._id));
+    } else {
+      dispatch(like(currentUser._id));
+    }
+
+    setChannel((prevChannel) => ({
+      ...prevChannel,
+      likes: currentVideo.likes?.includes(currentUser?._id)
+        ? prevChannel.likes.filter((userId) => userId !== currentUser._id)
+        : [...prevChannel.likes, currentUser._id],
+    }));
+  
   };
 
   const handleSubscribe = async () => {
@@ -107,20 +133,6 @@ export default function Video() {
     }
   
     dispatch(subscription(channel._id));
-
-    // currentUser.subscribedUsers.includes(channel._id)
-    //   ? await axios.put(`${serverUrl}/users/unsub/${channel._id}`,null,{
-    //     headers: {
-    //       "Authorization": `Bearer ${jwtCookie}`
-    //     }
-    //   })
-    //   : await axios.put(`${serverUrl}/users/sub/${channel._id}`,null,{
-    //     headers: {
-    //       "Authorization": `Bearer ${jwtCookie}`
-    //     }
-    //   });
-
-    // dispatch(subscription(channel._id));
   };
 
   return (
