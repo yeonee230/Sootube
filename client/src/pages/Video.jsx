@@ -61,20 +61,7 @@ export default function Video() {
         "Authorization": `Bearer ${jwtCookie}`
       }
     });
-    //dispatch(like(currentUser._id));
-
-    if (currentVideo.likes?.includes(currentUser?._id)) {
-      dispatch(dislike(currentUser._id));
-    } else {
-      dispatch(like(currentUser._id));
-    }
-  
-    setChannel((prevChannel) => ({
-      ...prevChannel,
-      likes: currentVideo.likes?.includes(currentUser?._id)
-        ? prevChannel.likes.filter((userId) => userId !== currentUser._id)
-        : [...prevChannel.likes, currentUser._id],
-    }));
+    dispatch(like(currentUser._id));
   };
 
   
@@ -86,19 +73,7 @@ export default function Video() {
       }
     });
 
-    if (currentVideo.likes?.includes(currentUser?._id)) {
-      dispatch(dislike(currentUser._id));
-    } else {
-      dispatch(like(currentUser._id));
-    }
-
-    setChannel((prevChannel) => ({
-      ...prevChannel,
-      likes: currentVideo.likes?.includes(currentUser?._id)
-        ? prevChannel.likes.filter((userId) => userId !== currentUser._id)
-        : [...prevChannel.likes, currentUser._id],
-    }));
-  
+    dispatch(dislike(currentUser._id));
   };
 
   const handleSubscribe = async () => {
